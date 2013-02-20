@@ -2,14 +2,15 @@
 #define ENTITY_H
 
 #include <string>
-#include "GameManger.h"
 #include "Component.h"
+class GameManager;
 
 class Entity
 {
   friend class GameManager;
-  private:
-    Entity(GameManager gm, unsigned int i, const std::string& n="");
+  //private:
+  public:
+    Entity(GameManager* gm, unsigned int i, const std::string& n="");
     Entity(); //Disable this because we always want id and gameManager assigned
     unsigned int id;
     GameManager* gameManager; //GameManager manages all entities components,

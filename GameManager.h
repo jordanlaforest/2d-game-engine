@@ -5,6 +5,9 @@
 #include <map>
 #include "Entity.h"
 #include "Component.h"
+#include "System.h"
+
+using namespace std;
 
 class GameManager
 {
@@ -12,7 +15,7 @@ class GameManager
     GameManager();
 
     //Should be upgraded to take components
-    Entity createEntity(const std::string& name="");
+    Entity* createEntity(const string& name="");
     void addComponentToEntity(const Entity*, const Component*);
     void removeComponentFromEntity(const Entity*, const Component*);
     Component* getEntityComponent(const Entity*, ComponentType) const;
@@ -21,7 +24,7 @@ class GameManager
 
   private:
     list<System*> systems;
-    map<Entity, list<Component*>> components;
+    map<Entity*, list<Component*> > components;
 
     void update();
     void entityChanged(Entity*);

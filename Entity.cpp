@@ -14,5 +14,6 @@ int Entity::getId() const
 
 Component* Entity::getComponent(ComponentType type) const
 {
-  return gameManager->getEntityComponent(this, type);
+  //return gameManager->getEntityComponent(this, type);
+  return NULL;
 }
