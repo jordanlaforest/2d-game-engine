@@ -4,8 +4,8 @@
 #include <list>
 #include <map>
 #include "Entity.h"
-#include "Component.h"
-#include "System.h"
+#include "components/Component.h"
+#include "systems/System.h"
 
 using namespace std;
 

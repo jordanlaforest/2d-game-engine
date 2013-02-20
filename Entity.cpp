@@ -1,5 +1,4 @@
 #include <string>
-#include "Component.h"
 #include "GameManager.h"
 #include "Entity.h"
 
