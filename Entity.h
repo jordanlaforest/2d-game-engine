@@ -21,11 +21,4 @@ class Entity
 
     Component* getComponent(ComponentType) const;
 };
-
-class EntityHash
-{
-  public:
-    size_t operator()(Entity* const&) const;
-};
-
 #endif

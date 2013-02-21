@@ -16,9 +16,3 @@ Component* Entity::getComponent(ComponentType type) const
   //return gameManager->getEntityComponent(this, type);
   return NULL;
 }
-
-
-size_t EntityHash::operator()(Entity* const& e) const
-{
-  return e->getId();
-}
