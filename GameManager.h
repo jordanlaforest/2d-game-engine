@@ -17,9 +17,9 @@ class GameManager
 
     //Should be upgraded to take components
     Entity& createEntity(const string& name="");
-    void addComponentToEntity(const Entity*, const Component*);
-    void removeComponentFromEntity(const Entity*, const Component*);
-    Component* getEntityComponent(const Entity*, ComponentType) const;
+    void addComponentToEntity(Entity&, Component&);
+    void removeComponentFromEntity(const Entity&, const Component&);
+    Component* getEntityComponent(const Entity&, ComponentType) const;
 
     void run();
 
@@ -29,7 +29,7 @@ class GameManager
     unsigned int nextId;
 
     void update();
-    void entityChanged(const Entity*) const;
+    void entityChanged(const Entity&) const;
 
 };
 #endif

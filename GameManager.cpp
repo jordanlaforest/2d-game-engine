@@ -1,6 +1,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <iostream>
 #include "GameManager.h"
 
 using namespace std;
@@ -24,29 +25,28 @@ Entity& GameManager::createEntity(const string& name)
   //that needs to be fixed
   Entity* newEnt = new Entity(this, nextId++, name);
   entities.insert(make_pair(newEnt, emptyList));
-  entityChanged(newEnt);
+  entityChanged(*newEnt);
   return *newEnt;
 }
 
-void GameManager::addComponentToEntity(const Entity* e, const Component* c)
+void GameManager::addComponentToEntity(Entity& e, Component& c)
 {
-  //add c to map for e
-  auto it = entities.find(e);
+  auto it = entities.find(&e);
   if( it != entities.end()){
-    it->second.push_back(c);
+    it->second.push_back(&c);
     entityChanged(e);
   }else{
     //Could not add component
   }
 }
 
-void GameManager::removeComponentFromEntity(const Entity* e, const Component* c)
+void GameManager::removeComponentFromEntity(const Entity& e, const Component& c)
 {
   //remove c from map for e
   //call entityChanged
 }
 
-Component* GameManager::getEntityComponent(const Entity* e, ComponentType t) const
+Component* GameManager::getEntityComponent(const Entity& e, ComponentType t) const
 {
   //loop through component list in map
   //return specified component
@@ -57,6 +57,14 @@ void GameManager::run()
   //start the game (game loop, etc)
   //For testing: 
   //Print each entities name and id
+  for(auto it = entities.begin(); it != entities.end(); it++){
+    cout << "Entity name: " << it->first->name << ", id: "
+         << it->first->getId() << endl;
+    cout << "Components:" << endl;
+    for(auto listIt = it->second.begin(); listIt != it->second.end(); listIt++){
+      cout << "\t" << (*listIt)->getType() << endl;
+    }
+  }
 }
 
 void GameManager::update()
@@ -64,7 +72,7 @@ void GameManager::update()
   //Update each system
 }
 
-void GameManager::entityChanged(const Entity* e) const
+void GameManager::entityChanged(const Entity& e) const
 {
   //loop through each system and call entityChanged
 }
