@@ -2,19 +2,26 @@
 #include <map>
 #include <string>
 #include "GameManager.h"
-#include "Entity.h"
-#include "Component.h"
-#include "System.h"
+
+using namespace std;
 
 GameManager::GameManager()
 {
   
 }
 
-Entity GameManager::createEntity(const std::string& name)
+GameManager::~GameManager()
 {
-  //add entity to map
-  //call entityChanged
+  //free all entities
+}
+
+Entity& GameManager::createEntity(const string& name)
+{
+  list<Component*> emptyList;
+  Entity* newEnt = new Entity(this, 0, name);
+  entities.insert(make_pair(newEnt, emptyList));
+  entityChanged(*newEnt);
+  return *newEnt;
 }
 
 void GameManager::addComponentToEntity(const Entity* e, const Component* c)
@@ -23,13 +30,13 @@ void GameManager::addComponentToEntity(const Entity* e, const Component* c)
   //call entityChanged
 }
 
-void GameManager::removeComponentFromEntity(const Entity*, const Component* c)
+void GameManager::removeComponentFromEntity(const Entity* e, const Component* c)
 {
   //remove c from map for e
   //call entityChanged
 }
 
-Component* GameManager::getEntityComponent(const Entity* e, ComponentType t)
+Component* GameManager::getEntityComponent(const Entity* e, ComponentType t) const
 {
   //loop through component list in map
   //return specified component
@@ -45,7 +52,7 @@ void GameManager::update()
   //Update each system
 }
 
-void GameManager::entityChanged(Entity*)
+void GameManager::entityChanged(const Entity&) const
 {
   //loop through each system and call entityChanged
 }

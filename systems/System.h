@@ -4,6 +4,9 @@
 #include <list>
 using namespace std;
 
+#include "../Entity.h"
+#include "../components/Component.h"
+
 class System
 {
   protected:

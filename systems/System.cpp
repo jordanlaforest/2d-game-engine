@@ -1,7 +1,5 @@
 #include <list>
 #include "System.h"
-#include "Component.h"
-#include "Entity.h"
 
 void System::entityChanged(const Entity* e, const list<Component*>& list)
 {

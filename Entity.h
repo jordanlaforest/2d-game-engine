@@ -8,8 +8,7 @@ class GameManager;
 class Entity
 {
   friend class GameManager;
-  //private:
-  public:
+  private:
     Entity(GameManager* gm, unsigned int i, const std::string& n="");
     Entity(); //Disable this because we always want id and gameManager assigned
     unsigned int id;
@@ -22,4 +21,11 @@ class Entity
 
     Component* getComponent(ComponentType) const;
 };
+
+class EntityHash
+{
+  public:
+    size_t operator()(Entity* const&) const;
+};
+
 #endif

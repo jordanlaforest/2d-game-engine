@@ -2,7 +2,7 @@
 #define GAME_MANAGER_H
 
 #include <list>
-#include <map>
+#include <unordered_map>
 #include "Entity.h"
 #include "components/Component.h"
 #include "systems/System.h"
@@ -13,9 +13,10 @@ class GameManager
 {
   public:
     GameManager();
+    ~GameManager();
 
     //Should be upgraded to take components
-    Entity* createEntity(const string& name="");
+    Entity& createEntity(const string& name="");
     void addComponentToEntity(const Entity*, const Component*);
     void removeComponentFromEntity(const Entity*, const Component*);
     Component* getEntityComponent(const Entity*, ComponentType) const;
@@ -24,10 +25,10 @@ class GameManager
 
   private:
     list<System*> systems;
-    map<Entity*, list<Component*> > components;
+    unordered_map<Entity*, list<Component*> > entities;
 
     void update();
-    void entityChanged(Entity*);
+    void entityChanged(const Entity&) const;
 
 };
 #endif
