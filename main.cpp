@@ -19,6 +19,7 @@ int main()
   gm.addComponentToEntity(player, tc);
   gm.addComponentToEntity(testEnt, tc2);
   gm.addComponentToEntity(test2, tc3);
+  gm.removeComponentFromEntity(testEnt, tc2);
   gm.run();
   //cout << "player: " << player.name << " " << player.getId() << endl;
 }

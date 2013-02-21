@@ -40,8 +40,23 @@ void GameManager::addComponentToEntity(Entity& e, Component& c)
   }
 }
 
-void GameManager::removeComponentFromEntity(const Entity& e, const Component& c)
+void GameManager::removeComponentFromEntity(Entity& e, Component& c)
 {
+  auto it = entities.find(&e);
+  if( it != entities.end()){
+    auto listIt = it->second.begin();
+    for(; listIt != it->second.end(); listIt++){
+      if(*listIt == &c)
+        break;
+    }
+    if(listIt != it->second.end()){
+      it->second.erase(listIt);
+    }else{
+      //Could not find component
+    }
+  }else{
+    //Could not find entity
+  }
   //remove c from map for e
   //call entityChanged
 }
