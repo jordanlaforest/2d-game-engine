@@ -12,7 +12,12 @@ GameManager::GameManager()
 
 GameManager::~GameManager()
 {
-  //free all entities
+  auto it = entities.begin();
+  while(it != entities.end()){
+    delete it->first;
+    //free all components in components list
+    it = entities.erase(it);
+  }
 }
 
 Entity& GameManager::createEntity(const string& name)
