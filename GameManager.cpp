@@ -5,17 +5,14 @@
 
 using namespace std;
 
-GameManager::GameManager()
-{
-  
-}
+GameManager::GameManager() : nextId(0)
+{ }
 
 GameManager::~GameManager()
 {
   auto it = entities.begin();
   while(it != entities.end()){
     delete it->first;
-    //free all components in components list
     it = entities.erase(it);
   }
 }
@@ -23,16 +20,24 @@ GameManager::~GameManager()
 Entity& GameManager::createEntity(const string& name)
 {
   list<Component*> emptyList;
-  Entity* newEnt = new Entity(this, 0, name);
+  //Currently making assumption that we won't overflow the id
+  //that needs to be fixed
+  Entity* newEnt = new Entity(this, nextId++, name);
   entities.insert(make_pair(newEnt, emptyList));
-  entityChanged(*newEnt);
+  entityChanged(newEnt);
   return *newEnt;
 }
 
 void GameManager::addComponentToEntity(const Entity* e, const Component* c)
 {
   //add c to map for e
-  //call entityChanged
+  auto it = entities.find(e);
+  if( it != entities.end()){
+    it->second.push_back(c);
+    entityChanged(e);
+  }else{
+    //Could not add component
+  }
 }
 
 void GameManager::removeComponentFromEntity(const Entity* e, const Component* c)
@@ -50,6 +55,8 @@ Component* GameManager::getEntityComponent(const Entity* e, ComponentType t) con
 void GameManager::run()
 {
   //start the game (game loop, etc)
+  //For testing: 
+  //Print each entities name and id
 }
 
 void GameManager::update()
@@ -57,7 +64,7 @@ void GameManager::update()
   //Update each system
 }
 
-void GameManager::entityChanged(const Entity&) const
+void GameManager::entityChanged(const Entity* e) const
 {
   //loop through each system and call entityChanged
 }

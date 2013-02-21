@@ -26,9 +26,10 @@ class GameManager
   private:
     list<System*> systems;
     unordered_map<Entity*, list<Component*> > entities;
+    unsigned int nextId;
 
     void update();
-    void entityChanged(const Entity&) const;
+    void entityChanged(const Entity*) const;
 
 };
 #endif
