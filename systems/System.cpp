@@ -1,10 +1,40 @@
+#include <iostream>
 #include <list>
 #include "System.h"
 
-void System::entityChanged(const Entity* e, const list<Component*>& list)
+System::System(GameManager& gameManager) : gm(gameManager)
+{ }
+
+void System::entityChanged(Entity* e, const list<Component*>& list)
 {
-  //Loop through list
-  //Check that for each entry in neededComponents there is a
-  //matching  Component in that list
-  //update the entities list accordingly
+  cout << "Entity changed: " << e->name << endl;
+  auto neededIt = neededComponents.begin();
+  for(; neededIt != neededComponents.end(); neededIt++){
+    auto entityComponentsIt = list.begin();
+    for(; entityComponentsIt != list.end(); entityComponentsIt++){
+      if(*neededIt == (*entityComponentsIt)->getType())
+        break; //Found this component
+    }
+    if(entityComponentsIt == list.end())
+      break; //A neededComponent was not found, can stop searching now
+    //else continue to next
+  }
+  if(neededIt == neededComponents.end()){ //Reached end of loop, pattern matched
+    cout << "Match to system: " << e->name << endl;
+    if(entities.count(e) == 0){
+      entities.insert(e);
+      //entityAdded
+    }
+  }else{
+    cout << "Non-Match to system: " << e->name << endl;
+    if(entities.count(e) == 1){
+      entities.erase(e);
+      //entityRemoved
+    }
+  }
+}
+
+GameManager& System::getGameManager()
+{
+  return gm;
 }

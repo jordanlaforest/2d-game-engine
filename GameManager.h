@@ -35,7 +35,7 @@ class GameManager
     //called from the game loop, updates all systems
     void update();
     //lets all the systems know an entity's component list has changed
-    void entityChanged(const Entity&) const;
+    void entityChanged(Entity&) const;
 
 };
 #endif

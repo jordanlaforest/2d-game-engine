@@ -3,11 +3,16 @@
 #include <string>
 #include <iostream>
 #include "GameManager.h"
+#include "systems/PrintTransformSystem.h"
 
 using namespace std;
 
 GameManager::GameManager() : nextId(0)
-{ }
+{ 
+  //Add system for test (there will be add/remove system member funcs later
+  PrintTransformSystem *pts = new PrintTransformSystem(*this);
+  systems.push_back(pts);
+}
 
 GameManager::~GameManager()
 {
@@ -23,7 +28,7 @@ Entity& GameManager::createEntity(const string& name)
   list<Component*> emptyList;
   //Currently making assumption that we won't overflow the id
   //that needs to be fixed
-  Entity* newEnt = new Entity(this, nextId++, name);
+  Entity* newEnt = new Entity(nextId++, name);
   entities.insert(make_pair(newEnt, emptyList));
   entityChanged(*newEnt);
   return *newEnt;
@@ -98,6 +103,7 @@ Component* GameManager::getEntityComponent(Entity& e, ComponentType t) const
 
 void GameManager::run()
 {
+
   //start the game (game loop, etc)
   //For testing: 
   //Print each entities name and id
@@ -109,14 +115,27 @@ void GameManager::run()
       cout << "\t" << (*listIt)->getType() << endl;
     }
   }
+
+  update();
+  update();
+  update();
 }
 
 void GameManager::update()
 {
-  //Update each system
+  auto it = systems.begin();
+  while(it != systems.end()){
+    (*it)->update();
+    it++;
+  }
 }
 
-void GameManager::entityChanged(const Entity& e) const
+void GameManager::entityChanged(Entity& e) const
 {
-  //loop through each system and call entityChanged
+  auto it = systems.begin();
+  const list<Component*>& list = entities.find(&e)->second;
+  while(it != systems.end()){
+    (*it)->entityChanged(&e, list);
+    it++;
+  }
 }

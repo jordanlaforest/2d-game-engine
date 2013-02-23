@@ -9,8 +9,8 @@ class Entity
 {
   friend class GameManager;
   private:
-    Entity(GameManager* gm, unsigned int i, const std::string& n="");
-    Entity(); //Disable this because we always want id and gameManager assigned
+    Entity(unsigned int i, const std::string& n="");
+    Entity(); //Disable this because we always want id assigned
     unsigned int id;
     GameManager* gameManager; //GameManager manages all entities components,
                               //So this allows it to pass that data along
@@ -18,7 +18,5 @@ class Entity
     std::string name;
 
     int getId() const;
-
-    Component* getComponent(ComponentType) const;
 };
 #endif
