@@ -26,6 +26,8 @@ class GameManager
     //Gets the (first) component of the specified type from the entity
     Component* getEntityComponent(Entity&, ComponentType) const;
 
+    void stopGame();
+
     //start the game, doesn't return until game is finished executing
     void run();
 
@@ -33,6 +35,7 @@ class GameManager
     list<System*> systems;
     unordered_map<Entity*, list<Component*> > entities; //and their components
     unsigned int nextId; //for entities
+    bool isRunning;
 
     //called from the game loop, updates all systems
     void update();

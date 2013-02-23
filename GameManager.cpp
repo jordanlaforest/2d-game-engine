@@ -7,7 +7,7 @@
 
 using namespace std;
 
-GameManager::GameManager() : nextId(0)
+GameManager::GameManager() : nextId(0), isRunning(false)
 { }
 
 GameManager::~GameManager()
@@ -126,11 +126,16 @@ void GameManager::run()
       cout << "\t" << (*listIt)->getType() << endl;
     }
   }
-  int i = 0;
-  while(i < 4800){
+
+  isRunning = true;
+  while(isRunning){
     update();
-    i++;
   }
+}
+
+void GameManager::stopGame()
+{
+  isRunning = false;
 }
 
 void GameManager::update()
