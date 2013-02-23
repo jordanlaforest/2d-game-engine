@@ -84,6 +84,11 @@ void GameManager::removeComponentFromEntity(Entity& e, ComponentType t)
 void GameManager::addSystem(System& sys)
 {
   systems.push_back(&sys);
+  auto it = entities.begin();
+  while(it != entities.end()){
+    sys.entityChanged(it->first, it->second);
+    it++;
+  }
 }
 void GameManager::removeSystem(System& sys)
 {
