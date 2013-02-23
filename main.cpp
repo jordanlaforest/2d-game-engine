@@ -2,6 +2,7 @@
 
 #include "GameManager.h"
 #include "Entity.h"
+#include "components/Component.h"
 #include "components/TransformComponent.h"
 
 using namespace std;
@@ -19,7 +20,12 @@ int main()
   gm.addComponentToEntity(player, tc);
   gm.addComponentToEntity(testEnt, tc2);
   gm.addComponentToEntity(test2, tc3);
-  gm.removeComponentFromEntity(testEnt, tc2);
+  Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
+  if(c != NULL)
+    cout << "Found. " << ((TransformComponent*)c)->x << endl;
+  //gm.removeComponentFromEntity(testEnt, tc2);
+  //gm.removeComponentFromEntity(testEnt, *c);
+  gm.removeComponentFromEntity(testEnt, TRANSFORM);
   gm.run();
   //cout << "player: " << player.name << " " << player.getId() << endl;
 }

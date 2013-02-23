@@ -19,7 +19,8 @@ class GameManager
     Entity& createEntity(const string& name="");
     void addComponentToEntity(Entity&, Component&);
     void removeComponentFromEntity(Entity&, Component&);
-    Component* getEntityComponent(const Entity&, ComponentType) const;
+    void removeComponentFromEntity(Entity&, ComponentType);
+    Component* getEntityComponent(Entity&, ComponentType) const;
 
     void run();
 

@@ -51,20 +51,49 @@ void GameManager::removeComponentFromEntity(Entity& e, Component& c)
     }
     if(listIt != it->second.end()){
       it->second.erase(listIt);
+      entityChanged(e);
     }else{
       //Could not find component
     }
   }else{
     //Could not find entity
   }
-  //remove c from map for e
-  //call entityChanged
 }
 
-Component* GameManager::getEntityComponent(const Entity& e, ComponentType t) const
+void GameManager::removeComponentFromEntity(Entity& e, ComponentType t)
 {
-  //loop through component list in map
-  //return specified component
+  auto it = entities.find(&e);
+  if( it != entities.end()){
+    auto listIt = it->second.begin();
+    for(; listIt != it->second.end(); listIt++){
+      if((*listIt)->getType() == t)
+        break;
+    }
+    if(listIt != it->second.end()){
+      it->second.erase(listIt);
+      entityChanged(e);
+    }else{
+      //Could not find component
+    }
+  }else{
+    //Could not find entity
+  }
+}
+
+Component* GameManager::getEntityComponent(Entity& e, ComponentType t) const
+{
+  auto it = entities.find(&e);
+  if( it != entities.end()){
+    auto listIt = it->second.begin();
+    for(; listIt != it->second.end(); listIt++){
+      if((*listIt)->getType() == t)
+        return *listIt;
+    }
+    //Could not find component
+  }else{
+    //Could not find entity
+  }
+  return NULL;
 }
 
 void GameManager::run()
