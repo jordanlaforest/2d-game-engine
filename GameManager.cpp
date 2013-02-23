@@ -8,11 +8,7 @@
 using namespace std;
 
 GameManager::GameManager() : nextId(0)
-{ 
-  //Add system for test (there will be add/remove system member funcs later
-  PrintTransformSystem *pts = new PrintTransformSystem(*this);
-  systems.push_back(pts);
-}
+{ }
 
 GameManager::~GameManager()
 {
@@ -85,6 +81,21 @@ void GameManager::removeComponentFromEntity(Entity& e, ComponentType t)
   }
 }
 
+void GameManager::addSystem(System& sys)
+{
+  systems.push_back(&sys);
+}
+void GameManager::removeSystem(System& sys)
+{
+  auto it = systems.begin();
+  while(it != systems.end()){
+    if(*it == &sys){
+      systems.erase(it);
+    }
+    it++;
+  }
+}
+
 Component* GameManager::getEntityComponent(Entity& e, ComponentType t) const
 {
   auto it = entities.find(&e);
@@ -115,10 +126,9 @@ void GameManager::run()
       cout << "\t" << (*listIt)->getType() << endl;
     }
   }
-
-  update();
-  update();
-  update();
+  while(true){
+    update();
+  }
 }
 
 void GameManager::update()

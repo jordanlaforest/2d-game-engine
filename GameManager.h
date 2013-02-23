@@ -21,6 +21,8 @@ class GameManager
     void addComponentToEntity(Entity&, Component&);
     void removeComponentFromEntity(Entity&, Component&);
     void removeComponentFromEntity(Entity&, ComponentType);
+    void addSystem(System&);    //The order they are added is the order
+    void removeSystem(System&); //they will run in
     //Gets the (first) component of the specified type from the entity
     Component* getEntityComponent(Entity&, ComponentType) const;
 

@@ -4,12 +4,15 @@
 #include "Entity.h"
 #include "components/Component.h"
 #include "components/TransformComponent.h"
+#include "systems/PrintTransformSystem.h"
 
 using namespace std;
 
 int main()
 {
   GameManager gm;
+  PrintTransformSystem pts(gm);
+  gm.addSystem(pts);
   TransformComponent tc(10, 10);
   TransformComponent tc2(30, 30);
   TransformComponent tc3(5, 15);
