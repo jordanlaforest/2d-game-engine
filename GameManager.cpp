@@ -126,8 +126,10 @@ void GameManager::run()
       cout << "\t" << (*listIt)->getType() << endl;
     }
   }
-  while(true){
+  int i = 0;
+  while(i < 4800){
     update();
+    i++;
   }
 }
 
