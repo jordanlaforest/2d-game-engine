@@ -25,7 +25,7 @@ int main()
   gm.addComponentToEntity(test2, tc3);
   Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
   if(c != NULL)
-    cout << "Found. " << ((TransformComponent*)c)->x << endl;
+    cout << "Found. " << ((TransformComponent*)c)->position.x << endl;
   //gm.removeComponentFromEntity(testEnt, tc2);
   //gm.removeComponentFromEntity(testEnt, *c);
   gm.removeComponentFromEntity(testEnt, TRANSFORM);

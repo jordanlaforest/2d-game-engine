@@ -19,7 +19,7 @@ void PrintTransformSystem::update()
   while(it != entities.end()){
     Entity& e = **it;
     TransformComponent* transform = static_cast<TransformComponent*>(getGameManager().getEntityComponent(e, TRANSFORM));
-    cout << e.name << ",\tx: " << transform->x << " y: " << transform->y << endl;
+    cout << e.name << ",\tx: " << transform->position.x << " y: " << transform->position.y << endl;
     it++;
   }
 }
