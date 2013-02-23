@@ -15,7 +15,7 @@ int main()
   PrintTransformSystem pts(gm);
   RenderSystem rs(gm);
   gm.addSystem(pts);
-  //gm.addSystem(rs);
+  gm.addSystem(rs);
   TransformComponent tc(10, 10);
   TransformComponent tc2(30, 30);
   TransformComponent tc3(5, 15);
