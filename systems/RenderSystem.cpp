@@ -30,6 +30,8 @@ RenderSystem::RenderSystem(GameManager& gameManager) : System(gameManager)
   if(!GLEW_VERSION_3_2){
     cerr << "OpenGL 3.2 API is not available" << endl;
   }
+
+  glClearColor(0.3, 0.4, 0.8, 1.0);
 }
 
 RenderSystem::~RenderSystem()
@@ -43,7 +45,6 @@ void RenderSystem::update()
     getGameManager().stopGame();
     return;
   }
-  glClearColor(0.3, 0.4, 0.8, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   glfwSwapBuffers();
