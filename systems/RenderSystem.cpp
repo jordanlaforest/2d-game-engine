@@ -7,7 +7,8 @@
 
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
-RenderSystem::RenderSystem(GameManager& gameManager) : System(gameManager)
+RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
+                          : System(gameManager)
 {
   if(!glfwInit()){
     cerr << "glfwInit() failed" << endl;
@@ -30,6 +31,8 @@ RenderSystem::RenderSystem(GameManager& gameManager) : System(gameManager)
   if(!GLEW_VERSION_3_2){
     cerr << "OpenGL 3.2 API is not available" << endl;
   }
+
+  glfwSetWindowTitle(title.c_str());
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
 }
