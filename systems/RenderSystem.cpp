@@ -1,7 +1,4 @@
 #include <iostream>
-#include <GL/glew.h>
-#include <GL/glfw.h>
-#include <glm/glm.hpp>
 #include "RenderSystem.h"
 #include "../GameManager.h"
 
@@ -35,6 +32,33 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   glfwSetWindowTitle(title.c_str());
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
+
+  const std::string vertShader("#version 330\n"
+                               "layout(location = 0) in vec4 position;\n"
+                               "void main()\n"
+                               "{\n"
+                               "  gl_Position = position;\n"
+                               "}\n");
+
+  const std::string fragShader("#version 330\n"
+                               "out vec4 outputColor;\n"
+                               "void main()\n"
+                               "{\n"
+                               "  outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
+                               "}\n");
+
+  shaderProgram.addShaderFromString(GL_VERTEX_SHADER, vertShader);
+  shaderProgram.addShaderFromString(GL_FRAGMENT_SHADER, fragShader);
+  shaderProgram.linkShaders();
+
+
+  glGenBuffers(1, &vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
 }
 
 RenderSystem::~RenderSystem()
@@ -49,6 +73,17 @@ void RenderSystem::update()
     return;
   }
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  glUseProgram(shaderProgram.getProgram());
+
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+
+  glDisableVertexAttribArray(0);
+  glUseProgram(0);
 
   glfwSwapBuffers();
 }
