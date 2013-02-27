@@ -78,7 +78,7 @@ RenderSystem::~RenderSystem()
   glfwTerminate();
 }
 
-void RenderSystem::update()
+void RenderSystem::preUpdate()
 {
   if(!glfwGetWindowParam(GLFW_OPENED)){
     getGameManager().stopGame();
@@ -88,40 +88,41 @@ void RenderSystem::update()
 
   glUseProgram(shaderProgram.getProgram());
 
+}
+
+void RenderSystem::updateEntity(Entity& e)
+{
+
+  TransformComponent* transform = static_cast<TransformComponent*>(
+                       getGameManager().getEntityComponent(e, TRANSFORM));
+
   //These will be replaced with data from each entity
-  auto it = entities.begin();
-  while(it != entities.end()){
-    Entity& e = **it;
-    TransformComponent* transform = static_cast<TransformComponent*>(
-                         getGameManager().getEntityComponent(e, TRANSFORM));
+  float  width = 100, height = 100;
+  float rotation = 0;
 
-    float  width = 100, height = 100;
-    float rotation = 0;
-  
-    glm::mat4 transformMatrix(1.0f);
-    transformMatrix = glm::translate(transformMatrix, transform->position);
-    transformMatrix = glm::scale(transformMatrix,
-                                 glm::vec3(width, height, 1.0f));
-    transformMatrix = glm::rotate(transformMatrix,
-                                  rotation, glm::vec3(0.0f, 0.0f, -1.0f));
-  
-    glm::mat4 mvpMatrix = vpMatrix * transformMatrix;
-  
-    glUniformMatrix4fv(mvpLocation, 1,
-                       GL_FALSE, glm::value_ptr(mvpMatrix));
-  
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
-  
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-  
-    glDisableVertexAttribArray(0);
-  
-    it++;
-  }
+  glm::mat4 transformMatrix(1.0f);
+  transformMatrix = glm::translate(transformMatrix, transform->position);
+  transformMatrix = glm::scale(transformMatrix,
+                               glm::vec3(width, height, 1.0f));
+  transformMatrix = glm::rotate(transformMatrix,
+                                rotation, glm::vec3(0.0f, 0.0f, -1.0f));
 
+  glm::mat4 mvpMatrix = vpMatrix * transformMatrix;
+
+  glUniformMatrix4fv(mvpLocation, 1,
+                     GL_FALSE, glm::value_ptr(mvpMatrix));
+
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+
+  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+  glDisableVertexAttribArray(0);
+}
+
+void RenderSystem::postUpdate()
+{
   glUseProgram(0);
-
   glfwSwapBuffers();
 }

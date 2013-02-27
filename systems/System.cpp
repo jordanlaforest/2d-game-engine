@@ -34,6 +34,17 @@ void System::entityChanged(Entity* e, const list<Component*>& list)
   }
 }
 
+void System::update()
+{
+  preUpdate();
+  auto it = entities.begin();
+  while(it != entities.end()){
+    updateEntity(**it);
+    it++;
+  }
+  postUpdate();
+}
+
 GameManager& System::getGameManager()
 {
   return gm;

@@ -15,7 +15,10 @@ class RenderSystem : public System
   public:
     RenderSystem(GameManager&, const std::string& title="Game Window");
     ~RenderSystem();
-    void update();
+  protected:
+    void preUpdate();
+    void updateEntity(Entity& e);
+    void postUpdate();
   private:
     ShaderProgram shaderProgram;
     float vertexPos[16] = { 0.00f, 0.00f, 0.0f, 1.0f,

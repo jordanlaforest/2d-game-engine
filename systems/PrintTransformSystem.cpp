@@ -11,13 +11,18 @@ PrintTransformSystem::PrintTransformSystem(GameManager& gameManager)
   neededComponents.push_back(TRANSFORM);
 }
 
-void PrintTransformSystem::update()
+void PrintTransformSystem::preUpdate()
 {
-  auto it = entities.begin();
-  while(it != entities.end()){
-    Entity& e = **it;
+
+}
+
+void PrintTransformSystem::updateEntity(Entity& e)
+{
     TransformComponent* transform = static_cast<TransformComponent*>(getGameManager().getEntityComponent(e, TRANSFORM));
     cout << e.name << ",\tx: " << transform->position.x << " y: " << transform->position.y << endl;
-    it++;
-  }
+}
+
+void PrintTransformSystem::postUpdate()
+{
+
 }

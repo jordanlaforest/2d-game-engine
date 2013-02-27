@@ -9,6 +9,9 @@ class PrintTransformSystem : public System
 {
   public:
     PrintTransformSystem(GameManager&);
-    void update();
+  protected:
+    void updateEntity(Entity& e);
+    void preUpdate();
+    void postUpdate();
 };
 #endif
