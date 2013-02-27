@@ -16,9 +16,9 @@ int main()
   RenderSystem rs(gm);
   gm.addSystem(pts);
   gm.addSystem(rs);
-  TransformComponent tc(10, 10);
-  TransformComponent tc2(30, 30);
-  TransformComponent tc3(5, 15);
+  TransformComponent tc(100, 100);
+  TransformComponent tc2(300, 300);
+  TransformComponent tc3(500, 150);
   Entity& player = gm.createEntity("player");
   Entity& testEnt = gm.createEntity("test");
   Entity& testNoComp = gm.createEntity("testNoComp");

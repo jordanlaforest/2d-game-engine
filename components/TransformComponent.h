@@ -7,9 +7,10 @@
 class TransformComponent : public Component
 {
   public:
-    TransformComponent(float x=0, float y=0);
+    TransformComponent(float x=0, float y=0, float z=0);
     
-    glm::vec2 position, scale; 
+    glm::vec3 position;
+    glm::vec2 scale; 
     float rotation;
 };
 #endif

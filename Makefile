@@ -11,7 +11,11 @@ $(EXECUTABLE): $(OBJECTS)
 
 -include $(DEPENDENCIES)
 
-.PHONY: clean
+.PHONY: clean, run
 
 clean:
 	rm -rf $(OBJECTS) $(DEPENDENCIES) $(EXECUTABLE)
+
+#My machine needs primusrun to run this
+run: $(EXECUTABLE)
+	primusrun ./$(EXECUTABLE)

@@ -8,9 +8,7 @@ PrintTransformSystem::PrintTransformSystem(GameManager& gameManager)
                                            : System(gameManager)
 {
   //Set up the neededComponents list to be used as a pattern
-  cout << "push_back" << endl;
   neededComponents.push_back(TRANSFORM);
-  cout << neededComponents.size() << endl;
 }
 
 void PrintTransformSystem::update()

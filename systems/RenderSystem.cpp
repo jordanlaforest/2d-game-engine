@@ -1,12 +1,15 @@
 #include <iostream>
 #include "RenderSystem.h"
 #include "../GameManager.h"
+#include "../components/TransformComponent.h"
 
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
 RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
                           : System(gameManager)
 {
+  neededComponents.push_back(TRANSFORM);
+
   if(!glfwInit()){
     cerr << "glfwInit() failed" << endl;
     exit(1);
@@ -33,11 +36,13 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
 
+
   const std::string vertShader("#version 330\n"
                                "layout(location = 0) in vec4 position;\n"
+                               "uniform mat4 mvpMatrix;\n"
                                "void main()\n"
                                "{\n"
-                               "  gl_Position = position;\n"
+                               "  gl_Position = mvpMatrix * position;\n"
                                "}\n");
 
   const std::string fragShader("#version 330\n"
@@ -51,6 +56,13 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   shaderProgram.addShaderFromString(GL_FRAGMENT_SHADER, fragShader);
   shaderProgram.linkShaders();
 
+  vpMatrix = glm::ortho<float>(0.0f, SCREEN_SIZE.x, SCREEN_SIZE.y, 0.0f);
+  glm::vec3 eye = glm::vec3(0.0f, 0.0f, 1.0f);
+  glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
+  glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+  vpMatrix *= glm::lookAt(eye, center, up);
+  mvpLocation = glGetUniformLocation(shaderProgram.getProgram(),
+                                            "mvpMatrix");
 
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -76,13 +88,39 @@ void RenderSystem::update()
 
   glUseProgram(shaderProgram.getProgram());
 
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  //These will be replaced with data from each entity
+  auto it = entities.begin();
+  while(it != entities.end()){
+    Entity& e = **it;
+    TransformComponent* transform = static_cast<TransformComponent*>(
+                         getGameManager().getEntityComponent(e, TRANSFORM));
 
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+    float  width = 100, height = 100;
+    float rotation = 0;
+  
+    glm::mat4 transformMatrix(1.0f);
+    transformMatrix = glm::translate(transformMatrix, transform->position);
+    transformMatrix = glm::scale(transformMatrix,
+                                 glm::vec3(width, height, 1.0f));
+    transformMatrix = glm::rotate(transformMatrix,
+                                  rotation, glm::vec3(0.0f, 0.0f, -1.0f));
+  
+    glm::mat4 mvpMatrix = vpMatrix * transformMatrix;
+  
+    glUniformMatrix4fv(mvpLocation, 1,
+                       GL_FALSE, glm::value_ptr(mvpMatrix));
+  
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  
+    glDisableVertexAttribArray(0);
+  
+    it++;
+  }
 
-  glDisableVertexAttribArray(0);
   glUseProgram(0);
 
   glfwSwapBuffers();
