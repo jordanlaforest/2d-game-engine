@@ -51,9 +51,10 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
                                "{\n"
                                "  outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
                                "}\n");
-
-  shaderProgram.addShaderFromString(GL_VERTEX_SHADER, vertShader);
-  shaderProgram.addShaderFromString(GL_FRAGMENT_SHADER, fragShader);
+  shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/render2d.vert");
+  shaderProgram.addShaderFromFile(GL_FRAGMENT_SHADER, "data/white.frag");
+  //shaderProgram.addShaderFromString(GL_VERTEX_SHADER, vertShader);
+  //shaderProgram.addShaderFromString(GL_FRAGMENT_SHADER, fragShader);
   shaderProgram.linkShaders();
 
   vpMatrix = glm::ortho<float>(0.0f, SCREEN_SIZE.x, SCREEN_SIZE.y, 0.0f);

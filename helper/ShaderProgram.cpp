@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "ShaderProgram.h"
 
 ShaderProgram::ShaderProgram() : program(0)
@@ -38,7 +39,22 @@ bool ShaderProgram::addShaderFromString(GLenum shaderType,
 bool ShaderProgram::addShaderFromFile(GLenum shaderType,
                                         const std::string& shaderFilename)
 {
-  //Load file then call addShaderFromString
+  std::ifstream shaderFile(shaderFilename.c_str());
+  if(!shaderFile.is_open()){
+    std::cerr << "Could not open file: " << shaderFilename << std::endl;
+    return false;
+  }
+  std::string fileData;
+  std::string lineData;
+  while(shaderFile.good()){
+    std::getline(shaderFile, lineData);
+    fileData.append(lineData);
+    fileData.append("\n");
+  }
+  
+  shaderFile.close();
+
+  addShaderFromString(shaderType, fileData);
 }
 
 bool ShaderProgram::linkShaders()

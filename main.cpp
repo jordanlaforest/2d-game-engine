@@ -14,7 +14,7 @@ int main()
   GameManager gm;
   PrintTransformSystem pts(gm);
   RenderSystem rs(gm);
-  gm.addSystem(pts);
+  //gm.addSystem(pts);
   gm.addSystem(rs);
   TransformComponent tc(100, 100);
   TransformComponent tc2(300, 300);
