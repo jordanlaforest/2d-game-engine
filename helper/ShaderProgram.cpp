@@ -55,6 +55,8 @@ bool ShaderProgram::addShaderFromFile(GLenum shaderType,
   shaderFile.close();
 
   addShaderFromString(shaderType, fileData);
+
+  return true;
 }
 
 bool ShaderProgram::linkShaders()

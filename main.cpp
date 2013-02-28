@@ -21,7 +21,6 @@ int main()
   TransformComponent tc3(500, 150);
   Entity& player = gm.createEntity("player");
   Entity& testEnt = gm.createEntity("test");
-  Entity& testNoComp = gm.createEntity("testNoComp");
   Entity& test2 = gm.createEntity("test2");
   gm.addComponentToEntity(player, tc);
   gm.addComponentToEntity(testEnt, tc2);
