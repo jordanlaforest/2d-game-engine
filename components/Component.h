@@ -1,7 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-enum ComponentType { TRANSFORM };
+enum ComponentType { TRANSFORM, SPRITE };
 
 class Component
 {
