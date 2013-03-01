@@ -5,8 +5,8 @@
 #include <list>
 using namespace std;
 
-#include "../Entity.h"
-#include "../components/Component.h"
+#include "Entity.h"
+#include "Component.h"
 
 class System
 {

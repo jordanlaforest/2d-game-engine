@@ -3,7 +3,7 @@
 #include <string>
 #include <iostream>
 #include "GameManager.h"
-#include "systems/PrintTransformSystem.h"
+#include "PrintTransformSystem.h"
 
 using namespace std;
 

@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "System.h"
-#include "../helper/ShaderProgram.h"
+#include "ShaderProgram.h"
 
 class RenderSystem : public System
 {

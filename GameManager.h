@@ -4,8 +4,8 @@
 #include <list>
 #include <unordered_map>
 #include "Entity.h"
-#include "components/Component.h"
-#include "systems/System.h"
+#include "Component.h"
+#include "System.h"
 
 using namespace std;
 

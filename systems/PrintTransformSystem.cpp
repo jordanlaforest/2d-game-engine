@@ -1,8 +1,8 @@
 #include <iostream>
 #include "PrintTransformSystem.h"
-#include "../components/Component.h"
-#include "../components/TransformComponent.h"
-#include "../GameManager.h"
+#include "Component.h"
+#include "TransformComponent.h"
+#include "GameManager.h"
 
 PrintTransformSystem::PrintTransformSystem(GameManager& gameManager)
                                            : System(gameManager)

@@ -2,7 +2,7 @@
 #define ENTITY_H
 
 #include <string>
-#include "components/Component.h"
+#include "Component.h"
 class GameManager;
 
 class Entity

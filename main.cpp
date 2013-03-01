@@ -2,10 +2,10 @@
 
 #include "GameManager.h"
 #include "Entity.h"
-#include "components/Component.h"
-#include "components/TransformComponent.h"
-#include "systems/PrintTransformSystem.h"
-#include "systems/RenderSystem.h"
+#include "Component.h"
+#include "TransformComponent.h"
+#include "PrintTransformSystem.h"
+#include "RenderSystem.h"
 
 using namespace std;
 

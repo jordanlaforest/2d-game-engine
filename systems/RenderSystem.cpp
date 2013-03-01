@@ -1,7 +1,7 @@
 #include <iostream>
 #include "RenderSystem.h"
-#include "../GameManager.h"
-#include "../components/TransformComponent.h"
+#include "GameManager.h"
+#include "TransformComponent.h"
 
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
