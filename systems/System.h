@@ -24,6 +24,11 @@ class System
     virtual void postUpdate()=0;
     //Called for each entity
     virtual void updateEntity(Entity& e)=0;
+    //Called when an entity is added or removed from the systems list
+    // of entities (so when the entity becomes relevant (or irrelevant))
+    virtual void entityAdded(Entity*, const list<Component*>&)=0;
+    virtual void entityRemoved(Entity*, const list<Component*>&)=0;
+
     GameManager& getGameManager();
 
     unordered_set<Entity*> entities; //List of relevant entities for the system

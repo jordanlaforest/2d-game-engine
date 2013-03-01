@@ -51,10 +51,8 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
                                "{\n"
                                "  outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
                                "}\n");
-  shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/render2d.vert");
-  shaderProgram.addShaderFromFile(GL_FRAGMENT_SHADER, "data/white.frag");
-  //shaderProgram.addShaderFromString(GL_VERTEX_SHADER, vertShader);
-  //shaderProgram.addShaderFromString(GL_FRAGMENT_SHADER, fragShader);
+  shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/shaders/render2d.vert");
+  shaderProgram.addShaderFromFile(GL_FRAGMENT_SHADER, "data/shaders/white.frag");
   shaderProgram.linkShaders();
 
   vpMatrix = glm::ortho<float>(0.0f, SCREEN_SIZE.x, SCREEN_SIZE.y, 0.0f);
@@ -77,6 +75,15 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
 RenderSystem::~RenderSystem()
 {
   glfwTerminate();
+}
+
+void RenderSystem::entityAdded(Entity* e, const list<Component*>& /*list*/)
+{
+  std::cout << "Entity added to RenderSystem: " << e->name << std::endl;
+}
+void RenderSystem::entityRemoved(Entity* e, const list<Component*>& /*list*/)
+{
+  std::cout << "Entity removed from RenderSystem: " << e->name << std::endl;
 }
 
 void RenderSystem::preUpdate()

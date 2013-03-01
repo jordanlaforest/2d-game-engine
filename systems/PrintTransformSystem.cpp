@@ -11,6 +11,15 @@ PrintTransformSystem::PrintTransformSystem(GameManager& gameManager)
   neededComponents.push_back(TRANSFORM);
 }
 
+void PrintTransformSystem::entityAdded(Entity*, const list<Component*>&)
+{
+
+}
+void PrintTransformSystem::entityRemoved(Entity*, const list<Component*>&)
+{
+
+}
+
 void PrintTransformSystem::preUpdate()
 {
 

@@ -19,6 +19,8 @@ class RenderSystem : public System
     void preUpdate();
     void updateEntity(Entity& e);
     void postUpdate();
+    void entityAdded(Entity*, const list<Component*>&);
+    void entityRemoved(Entity*, const list<Component*>&);
   private:
     ShaderProgram shaderProgram;
     float vertexPos[16] = { 0.00f, 0.00f, 0.0f, 1.0f,

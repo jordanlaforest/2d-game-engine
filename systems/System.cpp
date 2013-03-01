@@ -23,13 +23,13 @@ void System::entityChanged(Entity* e, const list<Component*>& list)
     cout << "Match to system: " << e->name << endl;
     if(entities.count(e) == 0){
       entities.insert(e);
-      //entityAdded
+      entityAdded(e, list);
     }
   }else{
     cout << "Non-Match to system: " << e->name << endl;
     if(entities.count(e) == 1){
       entities.erase(e);
-      //entityRemoved
+      entityRemoved(e, list);
     }
   }
 }
