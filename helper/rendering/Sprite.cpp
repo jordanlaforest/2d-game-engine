@@ -15,7 +15,7 @@ void Sprite::getSize(int& outWidth, int& outHeight)
   outHeight = height;
 }
 
-GLuint getTextureId()
+GLuint Sprite::getTextureId()
 {
   return texture->getId();
 }

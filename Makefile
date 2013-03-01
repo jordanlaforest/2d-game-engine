@@ -3,7 +3,11 @@ INCLUDEFLAGS=-Ihelper/rendering -Isystems -Icomponents -I./
 CXXFLAGS= -MMD -Wall -Wextra -pedantic -Werror -std=c++11 -g $(INCLUDEFLAGS)
 LDLIBS= -lGL -lglfw -lGLEW
 EXECUTABLE=test
-OBJECTS= main.o GameManager.o Entity.o systems/System.o systems/PrintTransformSystem.o systems/RenderSystem.o components/Component.o components/TransformComponent.o helper/rendering/ShaderProgram.o
+#objects
+SYSTEMS=systems/System.o systems/PrintTransformSystem.o systems/RenderSystem.o
+COMPONENTS=components/Component.o components/TransformComponent.o components/SpriteComponent.o
+HELPERS= helper/rendering/ShaderProgram.o helper/rendering/Sprite.o helper/rendering/SpriteManager.o helper/rendering/Texture.o
+OBJECTS= main.o GameManager.o Entity.o $(SYSTEMS) $(COMPONENTS) $(HELPERS)
 DEPENDENCIES= $(OBJECTS:.o=.d)
 
 $(EXECUTABLE): $(OBJECTS)

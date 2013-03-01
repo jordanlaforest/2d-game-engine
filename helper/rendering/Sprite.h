@@ -4,6 +4,8 @@
 #include <GL/glew.h>
 #include "Texture.h"
 
+class SpriteManager;
+
 class Sprite
 {
   friend class SpriteManager;

@@ -1,3 +1,4 @@
+#include <iostream>
 #include "SpriteManager.h"
 
 SpriteManager::SpriteManager()
@@ -6,7 +7,9 @@ SpriteManager::SpriteManager()
 SpriteManager::~SpriteManager()
 { }
 
-Sprite& loadSprite(std::string filename)
+Sprite& SpriteManager::loadSprite(std::string filename)
 {
+  std::cout << "Loading: " << filename << std::endl;
 
+  return *(new Sprite()); //Oh god, just compile
 }
