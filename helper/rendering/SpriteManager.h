@@ -12,6 +12,6 @@ class SpriteManager
   public:
     SpriteManager();
     ~SpriteManager();
-    Sprite& loadSprite(std::string filename);
+    Sprite* loadSprite(std::string filename);
 };
 #endif

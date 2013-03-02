@@ -2,14 +2,18 @@
 #include "RenderSystem.h"
 #include "GameManager.h"
 #include "TransformComponent.h"
+#include "SpriteComponent.h"
 
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
 RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
                           : System(gameManager)
 {
+  //Component pattern
   neededComponents.push_back(TRANSFORM);
+  neededComponents.push_back(SPRITE);
 
+  //Init
   if(!glfwInit()){
     cerr << "glfwInit() failed" << endl;
     exit(1);
@@ -35,26 +39,13 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   glfwSetWindowTitle(title.c_str());
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
-
-
-  const std::string vertShader("#version 330\n"
-                               "layout(location = 0) in vec4 position;\n"
-                               "uniform mat4 mvpMatrix;\n"
-                               "void main()\n"
-                               "{\n"
-                               "  gl_Position = mvpMatrix * position;\n"
-                               "}\n");
-
-  const std::string fragShader("#version 330\n"
-                               "out vec4 outputColor;\n"
-                               "void main()\n"
-                               "{\n"
-                               "  outputColor = vec4(1.0f, 1.0f, 1.0f, 1.0f);\n"
-                               "}\n");
+  
+  //Shader setup
   shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/shaders/render2d.vert");
-  shaderProgram.addShaderFromFile(GL_FRAGMENT_SHADER, "data/shaders/white.frag");
+  shaderProgram.addShaderFromFile(GL_FRAGMENT_SHADER, "data/shaders/sprite.frag");
   shaderProgram.linkShaders();
 
+  //Matrix setup
   vpMatrix = glm::ortho<float>(0.0f, SCREEN_SIZE.x, SCREEN_SIZE.y, 0.0f);
   glm::vec3 eye = glm::vec3(0.0f, 0.0f, 1.0f);
   glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -62,7 +53,7 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   vpMatrix *= glm::lookAt(eye, center, up);
   mvpLocation = glGetUniformLocation(shaderProgram.getProgram(),
                                             "mvpMatrix");
-
+  //VBO setup
   glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
@@ -103,10 +94,22 @@ void RenderSystem::updateEntity(Entity& e)
 
   TransformComponent* transform = static_cast<TransformComponent*>(
                        getGameManager().getEntityComponent(e, TRANSFORM));
+  SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
+                       getGameManager().getEntityComponent(e, SPRITE));
 
   //These will be replaced with data from each entity
-  float  width = 100, height = 100;
+  int iWidth, iHeight;
+  spriteComponent->sprite->getSize(iWidth, iHeight);
+  float  width = iWidth;
+  float height = iHeight;
   float rotation = 0;
+
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, spriteComponent->sprite->getTextureId());
+
+  GLint textureLocation = glGetUniformLocation(shaderProgram.getProgram(),
+                                                             "tex");
+  glUniform1i(textureLocation, 0);
 
   glm::mat4 transformMatrix(1.0f);
   transformMatrix = glm::translate(transformMatrix, transform->position);
@@ -122,11 +125,22 @@ void RenderSystem::updateEntity(Entity& e)
 
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 0, 0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat),
+                                               (char*)0);
+  glEnableVertexAttribArray(1);
+  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat),
+                                               (char*)0 + 3*sizeof(GLfloat));
 
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
   glDisableVertexAttribArray(0);
+  glDisableVertexAttribArray(1);
+  glBindTexture(GL_TEXTURE_2D, 0);
+
+  GLuint err = glGetError();
+        if (err != GL_NO_ERROR)
+                std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
+
 }
 
 void RenderSystem::postUpdate()

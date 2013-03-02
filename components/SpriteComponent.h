@@ -8,8 +8,8 @@
 class SpriteComponent : public Component
 {
   public:
-    SpriteComponent(Sprite&);
-    Sprite& sprite;
+    SpriteComponent(Sprite*);
+    Sprite* sprite;
     glm::vec4 tint;
     
 };

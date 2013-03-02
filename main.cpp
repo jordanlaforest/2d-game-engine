@@ -1,9 +1,11 @@
 #include <iostream>
 
 #include "GameManager.h"
+#include "SpriteManager.h"
 #include "Entity.h"
 #include "Component.h"
 #include "TransformComponent.h"
+#include "SpriteComponent.h"
 #include "PrintTransformSystem.h"
 #include "RenderSystem.h"
 
@@ -12,25 +14,28 @@ using namespace std;
 int main()
 {
   GameManager gm;
-  PrintTransformSystem pts(gm);
   RenderSystem rs(gm);
+  SpriteManager sm;
+  Sprite* s = sm.loadSprite("data/sprites/HorrifyingSmiley.png");
+  cout << "TextureId: " << s->getTextureId() << endl;
+  PrintTransformSystem pts(gm);
   //gm.addSystem(pts);
   gm.addSystem(rs);
-  TransformComponent tc(100, 100);
-  TransformComponent tc2(300, 300);
-  TransformComponent tc3(500, 150);
+  TransformComponent tc(100, 100); //player
+  SpriteComponent    sc(s); //player
+  TransformComponent tc3(500, 150);//test2
+  SpriteComponent    sc3(s);
   Entity& player = gm.createEntity("player");
-  Entity& testEnt = gm.createEntity("test");
   Entity& test2 = gm.createEntity("test2");
   gm.addComponentToEntity(player, tc);
-  gm.addComponentToEntity(testEnt, tc2);
+  gm.addComponentToEntity(player, sc);
   gm.addComponentToEntity(test2, tc3);
-  Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
+  gm.addComponentToEntity(test2, sc3);
+  /*Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
   if(c != NULL)
     cout << "Found. " << ((TransformComponent*)c)->position.x << endl;
   //gm.removeComponentFromEntity(testEnt, tc2);
   //gm.removeComponentFromEntity(testEnt, *c);
-  gm.removeComponentFromEntity(testEnt, TRANSFORM);
+  gm.removeComponentFromEntity(testEnt, TRANSFORM);*/
   gm.run();
-  //cout << "player: " << player.name << " " << player.getId() << endl;
 }
