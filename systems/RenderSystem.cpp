@@ -39,6 +39,8 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   glfwSetWindowTitle(title.c_str());
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
+
+  spriteBatch = new SpriteBatch(32 * 10);
   
   //Shader setup
   shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/shaders/render2d.vert");
@@ -51,20 +53,23 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   glm::vec3 center = glm::vec3(0.0f, 0.0f, 0.0f);
   glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
   vpMatrix *= glm::lookAt(eye, center, up);
-  mvpLocation = glGetUniformLocation(shaderProgram.getProgram(),
-                                            "mvpMatrix");
+
+  spriteBatch->setvpMatrix(vpMatrix);
+  //mvpLocation = glGetUniformLocation(shaderProgram.getProgram(),
+  //                                          "mvpMatrix");
   //VBO setup
-  glGenBuffers(1, &vbo);
+  /*glGenBuffers(1, &vbo);
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
+  glBindVertexArray(vao);*/
 }
 
 RenderSystem::~RenderSystem()
 {
+  delete spriteBatch;
   glfwTerminate();
 }
 
@@ -85,8 +90,8 @@ void RenderSystem::preUpdate()
   }
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  glUseProgram(shaderProgram.getProgram());
-
+  //glUseProgram(shaderProgram.getProgram());
+  spriteBatch->begin(shaderProgram.getProgram());
 }
 
 void RenderSystem::updateEntity(Entity& e)
@@ -100,11 +105,15 @@ void RenderSystem::updateEntity(Entity& e)
   //These will be replaced with data from each entity
   int iWidth, iHeight;
   spriteComponent->sprite->getSize(iWidth, iHeight);
-  float  width = iWidth;
+  /*float  width = iWidth;
   float height = iHeight;
-  float rotation = 0;
+  float rotation = 0;*/
 
-  glActiveTexture(GL_TEXTURE0);
+  spriteBatch->draw(spriteComponent->sprite, transform->position,
+                   transform->scale, spriteComponent->tint,
+                   transform->rotation);
+
+  /*glActiveTexture(GL_TEXTURE0);
   glBindTexture(GL_TEXTURE_2D, spriteComponent->sprite->getTextureId());
 
   GLint textureLocation = glGetUniformLocation(shaderProgram.getProgram(),
@@ -131,20 +140,25 @@ void RenderSystem::updateEntity(Entity& e)
   glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat),
                                                (char*)0 + 3*sizeof(GLfloat));
 
-  glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+  GLuint indices[6] = { 0, 1, 3, 0, 3, 2 };
+
+  glDrawElements(GL_TRIANGLES, 6,GL_UNSIGNED_INT, indices);
 
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
-  glBindTexture(GL_TEXTURE_2D, 0);
+  glBindTexture(GL_TEXTURE_2D, 0);*/
 
   GLuint err = glGetError();
-        if (err != GL_NO_ERROR)
-                std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
+  if (err != GL_NO_ERROR){
+    std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
+    exit(1);
+  }
 
 }
 
 void RenderSystem::postUpdate()
 {
-  glUseProgram(0);
+  //glUseProgram(0);
+  spriteBatch->end();
   glfwSwapBuffers();
 }

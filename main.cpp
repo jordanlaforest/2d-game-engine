@@ -23,6 +23,7 @@ int main()
   gm.addSystem(rs);
   TransformComponent tc(100, 100); //player
   SpriteComponent    sc(s); //player
+  sc.tint.g = 0.0f;
   TransformComponent tc3(500, 150);//test2
   SpriteComponent    sc3(s);
   Entity& player = gm.createEntity("player");

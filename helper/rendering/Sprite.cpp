@@ -19,3 +19,8 @@ GLuint Sprite::getTextureId()
 {
   return texture->getId();
 }
+
+Texture* Sprite::getTexture()
+{
+  return texture;
+}

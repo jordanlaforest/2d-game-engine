@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "System.h"
 #include "ShaderProgram.h"
+#include "SpriteBatch.h"
 
 class RenderSystem : public System
 {
@@ -23,10 +24,11 @@ class RenderSystem : public System
     void entityRemoved(Entity*, const list<Component*>&);
   private:
     ShaderProgram shaderProgram;
-    float vertexPos[20] = { 0.00f, 0.00f, 0.0f,     0.0f, 0.0f,
+    SpriteBatch* spriteBatch;
+    /*float vertexPos[20] = { 0.00f, 0.00f, 0.0f,     0.0f, 0.0f,
                             1.00f, 0.00f, 0.0f,     1.0f, 0.0f,
                             0.00f, 1.00f, 0.0f,     0.0f, 1.0f,
-                            1.00f, 1.00f, 0.0f,     1.0f, 1.0f };
+                            1.00f, 1.00f, 0.0f,     1.0f, 1.0f };*/
     GLuint vbo;
     GLuint vao;
     glm::mat4 vpMatrix;

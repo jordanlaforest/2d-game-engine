@@ -14,5 +14,7 @@ class Texture
 
   public:
     GLuint getId();
+    int getWidth();
+    int getHeight();
 };
 #endif

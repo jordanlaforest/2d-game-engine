@@ -33,11 +33,7 @@ Sprite* SpriteManager::loadSprite(std::string filename)
   }
 
   GLuint tex;
-  std::cout << "Before : " << tex;
   glGenTextures(1, &tex);
-  std::cout << " After: " << tex << std::endl;
-
-  std::cout << (glIsTexture(tex) ? "true" : "false") << std::endl;
 
   Texture* t = new Texture();
   t->id      = tex;
@@ -57,6 +53,7 @@ Sprite* SpriteManager::loadSprite(std::string filename)
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, t->width, t->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, ilGetData());
+  glBindTexture(GL_TEXTURE_2D, 0);
 
   ilDeleteImages(1, &texId);
 
