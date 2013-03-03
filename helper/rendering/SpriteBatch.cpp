@@ -190,20 +190,22 @@ void SpriteBatch::render()
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
   glBindVertexArray(vao);
   glBufferData(GL_ARRAY_BUFFER, bufIndex * sizeof(GLfloat), vertexBuffer, GL_DYNAMIC_DRAW);
-  std::cout << "Vertex Data:";
+  //Print vectexData
+  /*std::cout << "Vertex Data:";
   for(int i=0; i < bufIndex; i++){
     if(i % VERTEX_SIZE == 0) std::cout << std::endl;
     std::cout << vertexBuffer[i] << ", ";
   }
-  std::cout << std::endl;
+  std::cout << std::endl;*/
 
   glDrawElements(GL_TRIANGLES, indIndex, GL_UNSIGNED_INT, indices);
-  std::cout << "Indices:";
+  //Print indices
+  /*std::cout << "Indices:";
   for(int i=0; i < indIndex; i++){
     if(i % 6 == 0) std::cout << std::endl;
     std::cout << indices[i] << ", ";
   }
-  std::cout << std::endl;
+  std::cout << std::endl;*/
 
   glBindVertexArray(0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);

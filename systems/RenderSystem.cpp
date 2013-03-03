@@ -86,7 +86,6 @@ void RenderSystem::preUpdate()
 {
   if(!glfwGetWindowParam(GLFW_OPENED)){
     getGameManager().stopGame();
-    return;
   }
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -147,6 +146,8 @@ void RenderSystem::updateEntity(Entity& e)
   glDisableVertexAttribArray(0);
   glDisableVertexAttribArray(1);
   glBindTexture(GL_TEXTURE_2D, 0);*/
+
+  transform->position.x += 0.5;
 
   GLuint err = glGetError();
   if (err != GL_NO_ERROR){
