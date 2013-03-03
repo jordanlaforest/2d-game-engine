@@ -2,6 +2,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include <GL/glfw.h>
 #include "GameManager.h"
 #include "PrintTransformSystem.h"
 
@@ -134,7 +135,11 @@ void GameManager::run()
 
   isRunning = true;
   while(isRunning){
+    double beforeTime = glfwGetTime();
     update();
+    double timeTaken = glfwGetTime() - beforeTime;
+    cout << "Frame took " << timeTaken * 1000 << " ms which is "
+         << 1 / timeTaken << " fps" << endl;
   }
 }
 
@@ -147,7 +152,10 @@ void GameManager::update()
 {
   auto it = systems.begin();
   while(it != systems.end()){
+    double beforeTime = glfwGetTime(); //Requires having called glfwInit
     (*it)->update();
+    double timeTaken = glfwGetTime() - beforeTime;
+    cout << (*it)->getName() << " took " << timeTaken * 1000 << " ms" << endl;
     it++;
   }
 }

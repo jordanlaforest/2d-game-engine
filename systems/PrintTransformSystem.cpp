@@ -5,7 +5,7 @@
 #include "GameManager.h"
 
 PrintTransformSystem::PrintTransformSystem(GameManager& gameManager)
-                                           : System(gameManager)
+                            : System(gameManager, "PrintTransformSystem")
 {
   //Set up the neededComponents list to be used as a pattern
   neededComponents.push_back(TRANSFORM);

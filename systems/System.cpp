@@ -2,7 +2,8 @@
 #include <list>
 #include "System.h"
 
-System::System(GameManager& gameManager) : gm(gameManager)
+System::System(GameManager& gameManager, string n)
+             : name(n), gm(gameManager)
 { }
 
 void System::entityChanged(Entity* e, const list<Component*>& list)
@@ -48,4 +49,9 @@ void System::update()
 GameManager& System::getGameManager()
 {
   return gm;
+}
+
+string& System::getName()
+{
+  return name;
 }

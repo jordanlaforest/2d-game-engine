@@ -7,7 +7,7 @@
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
 RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
-                          : System(gameManager)
+                          : System(gameManager, "RenderSystem")
 {
   //Component pattern
   neededComponents.push_back(TRANSFORM);

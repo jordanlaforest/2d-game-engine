@@ -11,11 +11,12 @@ using namespace std;
 class System
 {
   public:
-    explicit System(GameManager&);
+    System(GameManager&, string n);
     //This is where the system does it's work on each entity
     void update();
     //When an entity gains/loses a compononent this will update the list
     void entityChanged(Entity*, const list<Component*>&);
+    string& getName();
 
   protected:
     //Called before looping through each entity
@@ -33,6 +34,7 @@ class System
 
     unordered_set<Entity*> entities; //List of relevant entities for the system
     list<ComponentType> neededComponents; //Defines what components are used
+    string name; //Used when reporting information like time taken to update
 
   private:
     GameManager& gm; //So it can get info on the entities

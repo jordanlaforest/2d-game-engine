@@ -23,3 +23,7 @@ clean:
 #My machine needs primusrun to run this
 run: $(EXECUTABLE)
 	primusrun ./$(EXECUTABLE)
+
+#Otherwise framerate is limited at 60 fps
+perftest: $(EXECUTABLE)
+	vblank_mode=0 primusrun ./$(EXECUTABLE)
