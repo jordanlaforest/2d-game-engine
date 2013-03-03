@@ -32,6 +32,13 @@ int main()
   gm.addComponentToEntity(player, sc);
   gm.addComponentToEntity(test2, tc3);
   gm.addComponentToEntity(test2, sc3);
+
+  for(int i =0; i < 5; i++){
+    Entity& e = gm.createEntity("whatevs");
+    gm.addComponentToEntity(e, *(new TransformComponent((i * 100) % 800,
+                                                        (i * 100) % 600)));
+    gm.addComponentToEntity(e, *(new SpriteComponent(s)));
+  }
   /*Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
   if(c != NULL)
     cout << "Found. " << ((TransformComponent*)c)->position.x << endl;
