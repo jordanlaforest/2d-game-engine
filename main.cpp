@@ -17,6 +17,7 @@ int main()
   RenderSystem rs(gm);
   SpriteManager sm;
   Sprite* s = sm.loadSprite("data/sprites/HorrifyingSmiley.png");
+  Sprite* s2 = sm.loadSprite("data/sprites/Circle.png");
   cout << "TextureId: " << s->getTextureId() << endl;
   PrintTransformSystem pts(gm);
   //gm.addSystem(pts);
@@ -37,7 +38,10 @@ int main()
     Entity& e = gm.createEntity("whatevs");
     gm.addComponentToEntity(e, *(new TransformComponent((i * 100) % 800,
                                                         (i * 100) % 600)));
-    gm.addComponentToEntity(e, *(new SpriteComponent(s)));
+    if(i % 2 == 0)
+      gm.addComponentToEntity(e, *(new SpriteComponent(s)));
+    else
+      gm.addComponentToEntity(e, *(new SpriteComponent(s2)));
   }
   /*Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
   if(c != NULL)
