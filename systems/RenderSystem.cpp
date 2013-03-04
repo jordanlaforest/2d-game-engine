@@ -147,8 +147,6 @@ void RenderSystem::updateEntity(Entity& e)
   glDisableVertexAttribArray(1);
   glBindTexture(GL_TEXTURE_2D, 0);*/
 
-  transform->position.x += 0.5;
-
   GLuint err = glGetError();
   if (err != GL_NO_ERROR){
     std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
