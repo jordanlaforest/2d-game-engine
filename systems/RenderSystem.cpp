@@ -55,16 +55,6 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   vpMatrix *= glm::lookAt(eye, center, up);
 
   spriteBatch->setvpMatrix(vpMatrix);
-  //mvpLocation = glGetUniformLocation(shaderProgram.getProgram(),
-  //                                          "mvpMatrix");
-  //VBO setup
-  /*glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(vertexPos), vertexPos, GL_STATIC_DRAW);
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);*/
 }
 
 RenderSystem::~RenderSystem()
@@ -89,7 +79,6 @@ void RenderSystem::preUpdate()
   }
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  //glUseProgram(shaderProgram.getProgram());
   spriteBatch->begin(shaderProgram.getProgram());
 }
 
@@ -126,7 +115,6 @@ void RenderSystem::updateEntity(Entity& e)
 
 void RenderSystem::postUpdate()
 {
-  //glUseProgram(0);
   spriteBatch->end();
   glfwSwapBuffers();
 }

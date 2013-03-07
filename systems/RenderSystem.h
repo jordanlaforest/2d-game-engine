@@ -25,10 +25,6 @@ class RenderSystem : public System
   private:
     ShaderProgram shaderProgram;
     SpriteBatch* spriteBatch;
-    /*float vertexPos[20] = { 0.00f, 0.00f, 0.0f,     0.0f, 0.0f,
-                            1.00f, 0.00f, 0.0f,     1.0f, 0.0f,
-                            0.00f, 1.00f, 0.0f,     0.0f, 1.0f,
-                            1.00f, 1.00f, 0.0f,     1.0f, 1.0f };*/
     GLuint vbo;
     GLuint vao;
     glm::mat4 vpMatrix;
