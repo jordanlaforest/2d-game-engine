@@ -47,11 +47,6 @@ SpriteBatch::~SpriteBatch()
 
 void SpriteBatch::begin(GLuint program)
 {
-  GLuint err = glGetError();
-  if (err != GL_NO_ERROR){
-    std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
-    exit(1);
-  }
   std::cout << "in begin" << std::endl;
   if(drawing){
     std::cout << "You must call end() before calling begin() again." << std::endl;
@@ -61,41 +56,16 @@ void SpriteBatch::begin(GLuint program)
   bufIndex = 0;
   indIndex = 0;
   glUseProgram(program);
-  err = glGetError();
-  if (err != GL_NO_ERROR){
-    std::cerr << "use prog, OpenGL Error: " << std::hex << err << std::endl;
-    exit(1);
-  }
   textureLocation = glGetUniformLocation(program, "tex");
-  err = glGetError();
-  if (err != GL_NO_ERROR){
-    std::cerr << "textureLoc, OpenGL Error: " << std::hex << err << std::endl;
-    exit(1);
-  }
   vpMatLocation = glGetUniformLocation(program, "vpMatrix");
-  err = glGetError();
-  if (err != GL_NO_ERROR){
-    std::cerr << "matLoc, OpenGL Error: " << std::hex << err << std::endl;
-    exit(1);
-  }
   
 }
 
 void SpriteBatch::draw(Sprite* s, glm::vec3 pos,
                   glm::vec2 scale, glm::vec4 tint, float rotation)
 {
-  std::cout << "in draw" << std::endl;
-  if(!drawing){
-    std::cout << "You must call begin() before calling draw()." << std::endl;
-    return;
-  }
 
   checkFlush(s->getTexture());
-  GLuint err = glGetError();
-  if (err != GL_NO_ERROR){
-    std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
-    exit(1);
-  }
 
   int width, height;
   int x, y;
