@@ -28,6 +28,5 @@ class RenderSystem : public System
     GLuint vbo;
     GLuint vao;
     glm::mat4 vpMatrix;
-    GLuint mvpLocation;
 };
 #endif
