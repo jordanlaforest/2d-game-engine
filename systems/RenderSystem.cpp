@@ -40,7 +40,7 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
 
-  spriteBatch = new SpriteBatch(32 * 10);
+  spriteBatch = new SpriteBatch(32 * 100);
   
   //Shader setup
   shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/shaders/render2d.vert");
@@ -101,51 +101,20 @@ void RenderSystem::updateEntity(Entity& e)
   SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
                        getGameManager().getEntityComponent(e, SPRITE));
 
-  //These will be replaced with data from each entity
-  int iWidth, iHeight;
-  spriteComponent->sprite->getSize(iWidth, iHeight);
-  /*float  width = iWidth;
-  float height = iHeight;
-  float rotation = 0;*/
+  int x = transform->position.x;
+  int y = transform->position.y;
+  int width, height;
+  spriteComponent->sprite->getSize(width, height);
 
-  spriteBatch->draw(spriteComponent->sprite, transform->position,
-                   transform->scale, spriteComponent->tint,
-                   transform->rotation);
+  width  *= transform->scale.x;
+  height *= transform->scale.y;
 
-  /*glActiveTexture(GL_TEXTURE0);
-  glBindTexture(GL_TEXTURE_2D, spriteComponent->sprite->getTextureId());
-
-  GLint textureLocation = glGetUniformLocation(shaderProgram.getProgram(),
-                                                             "tex");
-  glUniform1i(textureLocation, 0);
-
-  glm::mat4 transformMatrix(1.0f);
-  transformMatrix = glm::translate(transformMatrix, transform->position);
-  transformMatrix = glm::scale(transformMatrix,
-                               glm::vec3(width, height, 1.0f));
-  transformMatrix = glm::rotate(transformMatrix,
-                                rotation, glm::vec3(0.0f, 0.0f, -1.0f));
-
-  glm::mat4 mvpMatrix = vpMatrix * transformMatrix;
-
-  glUniformMatrix4fv(mvpLocation, 1,
-                     GL_FALSE, glm::value_ptr(mvpMatrix));
-
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat),
-                                               (char*)0);
-  glEnableVertexAttribArray(1);
-  glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5*sizeof(GLfloat),
-                                               (char*)0 + 3*sizeof(GLfloat));
-
-  GLuint indices[6] = { 0, 1, 3, 0, 3, 2 };
-
-  glDrawElements(GL_TRIANGLES, 6,GL_UNSIGNED_INT, indices);
-
-  glDisableVertexAttribArray(0);
-  glDisableVertexAttribArray(1);
-  glBindTexture(GL_TEXTURE_2D, 0);*/
+  if(x <= SCREEN_SIZE.x && y <= SCREEN_SIZE.y
+     && x + width >= 0 && y + height >= 0){
+    spriteBatch->draw(spriteComponent->sprite, transform->position,
+                      transform->scale, spriteComponent->tint,
+                      transform->rotation);
+  }
 
   GLuint err = glGetError();
   if (err != GL_NO_ERROR){

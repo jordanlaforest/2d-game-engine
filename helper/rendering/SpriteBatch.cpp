@@ -47,7 +47,7 @@ SpriteBatch::~SpriteBatch()
 
 void SpriteBatch::begin(GLuint program)
 {
-  std::cout << "in begin" << std::endl;
+  //std::cout << "in begin" << std::endl;
   if(drawing){
     std::cout << "You must call end() before calling begin() again." << std::endl;
     return;
@@ -110,7 +110,7 @@ void SpriteBatch::draw(Sprite* s, glm::vec3 pos,
 
 void SpriteBatch::end()
 {
-  std::cout << "in end" << std::endl;
+  //std::cout << "in end" << std::endl;
   if(!drawing){
     std::cout << "You must call begin() before calling draw()." << std::endl;
     return;
@@ -122,7 +122,7 @@ void SpriteBatch::end()
 
 void SpriteBatch::checkFlush(Texture* nextTexture)
 {
-  std::cout << "in checkFlush" << std::endl;
+  //std::cout << "in checkFlush" << std::endl;
   if(nextTexture == NULL){
     std::cout << "A texture on a sprite is null" << std::endl;
     return;
@@ -134,7 +134,7 @@ void SpriteBatch::checkFlush(Texture* nextTexture)
     flush();
     currentTexture = nextTexture;
   }
-  std::cout << "after checkFlush" << std::endl;
+  //std::cout << "after checkFlush" << std::endl;
 }
 
 void SpriteBatch::flush()
@@ -146,7 +146,7 @@ void SpriteBatch::flush()
 
 void SpriteBatch::render()
 {
-  std::cout << "in render" << std::endl;
+  //std::cout << "in render" << std::endl;
 
   if(currentTexture == NULL){
     std::cout << "Warning: NULL texture" << std::endl;
