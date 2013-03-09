@@ -29,7 +29,7 @@ SpriteBatch::SpriteBatch(unsigned int size)
   glEnableVertexAttribArray(1); //tint
   glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE,
                         VERTEX_SIZE * sizeof(GLfloat),
-                        (GLvoid*)( 4 * sizeof(GLfloat)));
+                        (GLvoid*)( 3 * sizeof(GLfloat)));
   glEnableVertexAttribArray(2); //texCoord
   glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
                         VERTEX_SIZE * sizeof(GLfloat),
@@ -161,12 +161,12 @@ void SpriteBatch::render()
   glBindVertexArray(vao);
   glBufferData(GL_ARRAY_BUFFER, bufIndex * sizeof(GLfloat), vertexBuffer, GL_DYNAMIC_DRAW);
   //Print vectexData
-  /*std::cout << "Vertex Data:";
+  std::cout << "Vertex Data:";
   for(int i=0; i < bufIndex; i++){
     if(i % VERTEX_SIZE == 0) std::cout << std::endl;
     std::cout << vertexBuffer[i] << ", ";
   }
-  std::cout << std::endl;*/
+  std::cout << std::endl;
 
   glDrawElements(GL_TRIANGLES, indIndex, GL_UNSIGNED_INT, indices);
   //Print indices
@@ -203,10 +203,10 @@ void SpriteBatch::addVertexData(glm::vec4& pos, glm::vec4& tint,
   vertexBuffer[bufIndex++] = pos.y;
   vertexBuffer[bufIndex++] = pos.z;
 
-  vertexBuffer[bufIndex++] = tint.w;
   vertexBuffer[bufIndex++] = tint.x;
   vertexBuffer[bufIndex++] = tint.y;
   vertexBuffer[bufIndex++] = tint.z;
+  vertexBuffer[bufIndex++] = tint.w;
 
   vertexBuffer[bufIndex++] = texCoords.x;
   vertexBuffer[bufIndex++] = texCoords.y;

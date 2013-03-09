@@ -41,6 +41,8 @@ RenderSystem::RenderSystem(GameManager& gameManager,
   glfwSetWindowTitle(title.c_str());
 
   glClearColor(0.3, 0.4, 0.8, 1.0);
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   spriteBatch = new SpriteBatch(32 * 100);
   numDrawLayers = numLayers;
@@ -117,7 +119,7 @@ void RenderSystem::preUpdate()
   if(!glfwGetWindowParam(GLFW_OPENED)){
     getGameManager().stopGame();
   }
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT);
 
   spriteBatch->begin(shaderProgram.getProgram());
 }
