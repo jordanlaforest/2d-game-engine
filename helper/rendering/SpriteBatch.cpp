@@ -23,17 +23,17 @@ SpriteBatch::SpriteBatch(unsigned int size)
   glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
   glEnableVertexAttribArray(0); //position
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE,
                         VERTEX_SIZE * sizeof(GLfloat),
                         (GLvoid*)0);
   glEnableVertexAttribArray(1); //tint
   glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE,
                         VERTEX_SIZE * sizeof(GLfloat),
-                        (GLvoid*)( 3 * sizeof(GLfloat)));
+                        (GLvoid*)( 2 * sizeof(GLfloat)));
   glEnableVertexAttribArray(2); //texCoord
   glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
                         VERTEX_SIZE * sizeof(GLfloat),
-                        (GLvoid*)( 7 * sizeof(GLfloat)));
+                        (GLvoid*)( 6 * sizeof(GLfloat)));
 
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
@@ -61,7 +61,7 @@ void SpriteBatch::begin(GLuint program)
   
 }
 
-void SpriteBatch::draw(Sprite* s, glm::vec3 pos,
+void SpriteBatch::draw(Sprite* s, glm::vec2 pos,
                   glm::vec2 scale, glm::vec4 tint, float rotation)
 {
 
@@ -73,7 +73,7 @@ void SpriteBatch::draw(Sprite* s, glm::vec3 pos,
   s->getPosition(x, y);
 
   glm::mat4 transform(1.0f);
-  transform = glm::translate(transform, pos);
+  transform = glm::translate(transform, glm::vec3(pos, 0));
   transform = glm::scale(transform,
                          glm::vec3(width * scale.x, height * scale.y, 1.0f));
   transform = glm::rotate(transform, rotation, glm::vec3(0.0f, 0.0f, -1.0f));
@@ -201,7 +201,6 @@ void SpriteBatch::addVertexData(glm::vec4& pos, glm::vec4& tint,
 {
   vertexBuffer[bufIndex++] = pos.x;
   vertexBuffer[bufIndex++] = pos.y;
-  vertexBuffer[bufIndex++] = pos.z;
 
   vertexBuffer[bufIndex++] = tint.x;
   vertexBuffer[bufIndex++] = tint.y;

@@ -9,7 +9,7 @@
 #include "Sprite.h"
 
 //Number of floats per vertex
-#define VERTEX_SIZE 9
+#define VERTEX_SIZE 8
 
 class SpriteBatch
 {
@@ -17,7 +17,7 @@ class SpriteBatch
     SpriteBatch(unsigned int size);
     ~SpriteBatch();
     void begin(GLuint program);
-    void draw(Sprite* s, glm::vec3 pos,
+    void draw(Sprite* s, glm::vec2 pos,
                         glm::vec2 scale,
                         glm::vec4 tint,
                         float rotation);
