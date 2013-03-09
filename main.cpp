@@ -38,10 +38,13 @@ int main()
     Entity& e = gm.createEntity("whatevs");
     gm.addComponentToEntity(e, *(new TransformComponent((i * 100) % 800,
                                                         (i * 100) % 600)));
+    SpriteComponent* spr;
     if(i % 2 == 0)
-      gm.addComponentToEntity(e, *(new SpriteComponent(s)));
+      spr = new SpriteComponent(s2);
     else
-      gm.addComponentToEntity(e, *(new SpriteComponent(s2)));
+      spr = new SpriteComponent(s);
+    spr->layer = i;
+    gm.addComponentToEntity(e, *spr);
   }
   /*Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
   if(c != NULL)

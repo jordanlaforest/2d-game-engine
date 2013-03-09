@@ -13,7 +13,7 @@ class System
   public:
     System(GameManager&, string n);
     //This is where the system does it's work on each entity
-    void update();
+    virtual void update();
     //When an entity gains/loses a compononent this will update the list
     void entityChanged(Entity*, const list<Component*>&);
     string& getName();

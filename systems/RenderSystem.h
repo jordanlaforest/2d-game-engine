@@ -2,6 +2,7 @@
 #define RENDER_SYSTEM_H
 
 #include <string>
+#include <vector>
 #include <GL/glew.h>
 #include <GL/glfw.h>
 #include <glm/glm.hpp>
@@ -14,8 +15,11 @@
 class RenderSystem : public System
 {
   public:
-    RenderSystem(GameManager&, const std::string& title="Game Window");
+    RenderSystem(GameManager&,
+                 const std::string& title="Game Window",
+                 unsigned int numLayers=8);
     ~RenderSystem();
+    void update(); //We wan't more control over this
   protected:
     void preUpdate();
     void updateEntity(Entity& e);
@@ -23,6 +27,8 @@ class RenderSystem : public System
     void entityAdded(Entity*, const list<Component*>&);
     void entityRemoved(Entity*, const list<Component*>&);
   private:
+    unsigned int numDrawLayers;
+    std::vector<Entity*>* drawLayers;
     ShaderProgram shaderProgram;
     SpriteBatch* spriteBatch;
     GLuint vbo;

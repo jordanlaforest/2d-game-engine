@@ -6,7 +6,9 @@
 
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
-RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
+RenderSystem::RenderSystem(GameManager& gameManager,
+                           const std::string& title,
+                           unsigned int numLayers)
                           : System(gameManager, "RenderSystem")
 {
   //Component pattern
@@ -41,6 +43,10 @@ RenderSystem::RenderSystem(GameManager& gameManager, const std::string& title)
   glClearColor(0.3, 0.4, 0.8, 1.0);
 
   spriteBatch = new SpriteBatch(32 * 100);
+  numDrawLayers = numLayers;
+  //We need one less then that amount of vectors because we will draw layer 0
+  //While populating these vectors
+  drawLayers  = new std::vector<Entity*>[numDrawLayers-1];
   
   //Shader setup
   shaderProgram.addShaderFromFile(GL_VERTEX_SHADER, "data/shaders/render2d.vert");
@@ -70,6 +76,40 @@ void RenderSystem::entityAdded(Entity* e, const list<Component*>& /*list*/)
 void RenderSystem::entityRemoved(Entity* e, const list<Component*>& /*list*/)
 {
   std::cout << "Entity removed from RenderSystem: " << e->name << std::endl;
+}
+
+void RenderSystem::update()
+{
+  preUpdate();
+  auto it = entities.begin();
+  while(it != entities.end()){
+    Entity& e = **it;
+    SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
+                         getGameManager().getEntityComponent(e, SPRITE));
+    if(spriteComponent->layer == 0){  //Might as well draw the first layer now
+      updateEntity(e);
+    }else{
+      if(spriteComponent->layer >= numDrawLayers - 1){ //clamp e.layer
+        //We've already drawn layer 0 so we use -2 to fill the 0th position
+        drawLayers[numDrawLayers-2].push_back(&e);
+      }else{
+        //-1 to fill in 0th position
+        drawLayers[spriteComponent->layer-1].push_back(&e);
+      }
+    }
+    it++;
+  }
+  
+  for(unsigned int i=0; i < numDrawLayers-1; i++){
+    auto it = drawLayers[i].begin();
+    while(it != drawLayers[i].end()){
+      updateEntity(**it);
+      it++;
+    }
+    //Done with this layer
+    drawLayers[i].clear();
+  }
+  postUpdate();
 }
 
 void RenderSystem::preUpdate()

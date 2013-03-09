@@ -11,6 +11,7 @@ class SpriteComponent : public Component
     SpriteComponent(Sprite*);
     Sprite* sprite;
     glm::vec4 tint;
+    unsigned int layer;
     
 };
 #endif
