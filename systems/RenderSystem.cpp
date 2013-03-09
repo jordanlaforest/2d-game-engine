@@ -86,17 +86,33 @@ void RenderSystem::update()
   auto it = entities.begin();
   while(it != entities.end()){
     Entity& e = **it;
+    TransformComponent* transform = static_cast<TransformComponent*>(
+                         getGameManager().getEntityComponent(e, TRANSFORM));
     SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
                          getGameManager().getEntityComponent(e, SPRITE));
-    if(spriteComponent->layer == 0){  //Might as well draw the first layer now
-      updateEntity(e);
-    }else{
-      if(spriteComponent->layer >= numDrawLayers - 1){ //clamp e.layer
-        //We've already drawn layer 0 so we use -2 to fill the 0th position
-        drawLayers[numDrawLayers-2].push_back(&e);
+
+    int x = transform->position.x;
+    int y = transform->position.y;
+    int width, height;
+    spriteComponent->sprite->getSize(width, height);
+ 
+    width  *= transform->scale.x;
+    height *= transform->scale.y;
+ 
+    if(x <= SCREEN_SIZE.x && y <= SCREEN_SIZE.y
+       && x + width >= 0 && y + height >= 0){
+      if(spriteComponent->layer == 0){  //Might as well draw the first layer now
+        spriteBatch->draw(spriteComponent->sprite, transform->position,
+                          transform->scale, spriteComponent->tint,
+                          transform->rotation);
       }else{
-        //-1 to fill in 0th position
-        drawLayers[spriteComponent->layer-1].push_back(&e);
+        if(spriteComponent->layer >= numDrawLayers - 1){ //clamp e.layer
+          //We've already drawn layer 0 so we use -2 to fill the 0th position
+          drawLayers[numDrawLayers-2].push_back(&e);
+        }else{
+          //-1 to fill in 0th position
+          drawLayers[spriteComponent->layer-1].push_back(&e);
+        }
       }
     }
     it++;
@@ -105,13 +121,26 @@ void RenderSystem::update()
   for(unsigned int i=0; i < numDrawLayers-1; i++){
     auto it = drawLayers[i].begin();
     while(it != drawLayers[i].end()){
-      updateEntity(**it);
+      Entity& e = **it;
+      TransformComponent* transform = static_cast<TransformComponent*>(
+                           getGameManager().getEntityComponent(e, TRANSFORM));
+      SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
+                           getGameManager().getEntityComponent(e, SPRITE));
+      spriteBatch->draw(spriteComponent->sprite, transform->position,
+                           transform->scale, spriteComponent->tint,
+                           transform->rotation);
       it++;
     }
     //Done with this layer
     drawLayers[i].clear();
   }
   postUpdate();
+
+  GLuint err = glGetError();
+  if (err != GL_NO_ERROR){
+    std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
+    exit(1);
+  }
 }
 
 void RenderSystem::preUpdate()
@@ -122,37 +151,6 @@ void RenderSystem::preUpdate()
   glClear(GL_COLOR_BUFFER_BIT);
 
   spriteBatch->begin(shaderProgram.getProgram());
-}
-
-void RenderSystem::updateEntity(Entity& e)
-{
-
-  TransformComponent* transform = static_cast<TransformComponent*>(
-                       getGameManager().getEntityComponent(e, TRANSFORM));
-  SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
-                       getGameManager().getEntityComponent(e, SPRITE));
-
-  int x = transform->position.x;
-  int y = transform->position.y;
-  int width, height;
-  spriteComponent->sprite->getSize(width, height);
-
-  width  *= transform->scale.x;
-  height *= transform->scale.y;
-
-  if(x <= SCREEN_SIZE.x && y <= SCREEN_SIZE.y
-     && x + width >= 0 && y + height >= 0){
-    spriteBatch->draw(spriteComponent->sprite, transform->position,
-                      transform->scale, spriteComponent->tint,
-                      transform->rotation);
-  }
-
-  GLuint err = glGetError();
-  if (err != GL_NO_ERROR){
-    std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
-    exit(1);
-  }
-
 }
 
 void RenderSystem::postUpdate()

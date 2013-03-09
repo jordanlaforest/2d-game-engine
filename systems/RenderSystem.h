@@ -22,7 +22,6 @@ class RenderSystem : public System
     void update(); //We wan't more control over this
   protected:
     void preUpdate();
-    void updateEntity(Entity& e);
     void postUpdate();
     void entityAdded(Entity*, const list<Component*>&);
     void entityRemoved(Entity*, const list<Component*>&);

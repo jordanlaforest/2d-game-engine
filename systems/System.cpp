@@ -46,6 +46,12 @@ void System::update()
   postUpdate();
 }
 
+void System::preUpdate() {}
+void System::postUpdate() {}
+void System::updateEntity(Entity&) {}
+void System::entityAdded(Entity*, const std::list<Component*>&) {}
+void System::entityRemoved(Entity*, const std::list<Component*>&) {}
+
 GameManager& System::getGameManager()
 {
   return gm;

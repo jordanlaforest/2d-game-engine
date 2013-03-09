@@ -161,12 +161,12 @@ void SpriteBatch::render()
   glBindVertexArray(vao);
   glBufferData(GL_ARRAY_BUFFER, bufIndex * sizeof(GLfloat), vertexBuffer, GL_DYNAMIC_DRAW);
   //Print vectexData
-  std::cout << "Vertex Data:";
+  /*std::cout << "Vertex Data:";
   for(int i=0; i < bufIndex; i++){
     if(i % VERTEX_SIZE == 0) std::cout << std::endl;
     std::cout << vertexBuffer[i] << ", ";
   }
-  std::cout << std::endl;
+  std::cout << std::endl;*/
 
   glDrawElements(GL_TRIANGLES, indIndex, GL_UNSIGNED_INT, indices);
   //Print indices

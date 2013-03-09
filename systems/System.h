@@ -20,15 +20,15 @@ class System
 
   protected:
     //Called before looping through each entity
-    virtual void preUpdate()=0;
+    virtual void preUpdate();
     //Called after looping through each entity
-    virtual void postUpdate()=0;
+    virtual void postUpdate();
     //Called for each entity
-    virtual void updateEntity(Entity& e)=0;
+    virtual void updateEntity(Entity& e);
     //Called when an entity is added or removed from the systems list
     // of entities (so when the entity becomes relevant (or irrelevant))
-    virtual void entityAdded(Entity*, const list<Component*>&)=0;
-    virtual void entityRemoved(Entity*, const list<Component*>&)=0;
+    virtual void entityAdded(Entity*, const list<Component*>&);
+    virtual void entityRemoved(Entity*, const list<Component*>&);
 
     GameManager& getGameManager();
 
