@@ -67,6 +67,7 @@ RenderSystem::RenderSystem(GameManager& gameManager,
 
 RenderSystem::~RenderSystem()
 {
+  delete drawLayers[];
   delete spriteBatch;
   glfwTerminate();
 }
