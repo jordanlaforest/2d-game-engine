@@ -71,18 +71,12 @@ RenderSystem::~RenderSystem()
   glfwTerminate();
 }
 
-void RenderSystem::entityAdded(Entity* e, const list<Component*>& /*list*/)
-{
-  std::cout << "Entity added to RenderSystem: " << e->name << std::endl;
-}
-void RenderSystem::entityRemoved(Entity* e, const list<Component*>& /*list*/)
-{
-  std::cout << "Entity removed from RenderSystem: " << e->name << std::endl;
-}
-
 void RenderSystem::update()
 {
   preUpdate();
+
+  //Loop through each entity, placing the ones that are on the screen
+  //in the list for its layer
   auto it = entities.begin();
   while(it != entities.end()){
     Entity& e = **it;
@@ -118,6 +112,7 @@ void RenderSystem::update()
     it++;
   }
   
+  //Loop through each layer drawing each entity in each
   for(unsigned int i=0; i < numDrawLayers-1; i++){
     auto it = drawLayers[i].begin();
     while(it != drawLayers[i].end()){

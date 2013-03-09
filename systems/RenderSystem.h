@@ -23,8 +23,6 @@ class RenderSystem : public System
   protected:
     void preUpdate();
     void postUpdate();
-    void entityAdded(Entity*, const list<Component*>&);
-    void entityRemoved(Entity*, const list<Component*>&);
   private:
     unsigned int numDrawLayers;
     std::vector<Entity*>* drawLayers;
