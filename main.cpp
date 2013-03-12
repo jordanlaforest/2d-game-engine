@@ -1,13 +1,13 @@
 #include <iostream>
 
 #include "GameManager.h"
-#include "SpriteManager.h"
+#include "helper/rendering/SpriteManager.h"
 #include "Entity.h"
-#include "Component.h"
-#include "TransformComponent.h"
-#include "SpriteComponent.h"
-#include "PrintTransformSystem.h"
-#include "RenderSystem.h"
+#include "components/Component.h"
+#include "components/TransformComponent.h"
+#include "components/SpriteComponent.h"
+#include "systems/PrintTransformSystem.h"
+#include "systems/RenderSystem.h"
 
 using namespace std;
 

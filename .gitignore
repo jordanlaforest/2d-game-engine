@@ -2,3 +2,6 @@
 *.o
 *.d
 tags
+2d-game-engine
+2d-game-engine.make
+Makefile

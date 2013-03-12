@@ -3,7 +3,7 @@
 
 #include <glm/glm.hpp>
 #include "Component.h"
-#include "Sprite.h"
+#include "helper/rendering/Sprite.h"
 
 class SpriteComponent : public Component
 {

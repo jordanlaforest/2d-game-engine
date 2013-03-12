@@ -6,7 +6,7 @@
 using namespace std;
 
 #include "Entity.h"
-#include "Component.h"
+#include "components/Component.h"
 
 class System
 {

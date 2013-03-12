@@ -9,8 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include "System.h"
-#include "ShaderProgram.h"
-#include "SpriteBatch.h"
+#include "helper/rendering/ShaderProgram.h"
+#include "helper/rendering/SpriteBatch.h"
 
 class RenderSystem : public System
 {

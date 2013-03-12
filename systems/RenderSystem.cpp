@@ -1,8 +1,8 @@
 #include <iostream>
 #include "RenderSystem.h"
 #include "GameManager.h"
-#include "TransformComponent.h"
-#include "SpriteComponent.h"
+#include "components/TransformComponent.h"
+#include "components/SpriteComponent.h"
 
 const glm::vec2 SCREEN_SIZE(800, 600); //Temp
 
@@ -67,7 +67,7 @@ RenderSystem::RenderSystem(GameManager& gameManager,
 
 RenderSystem::~RenderSystem()
 {
-  delete drawLayers[];
+  delete[] drawLayers;
   delete spriteBatch;
   glfwTerminate();
 }

@@ -3,7 +3,7 @@
 
 #include <string>
 #include <IL/il.h>
-#include "Sprite.h"
+#include "helper/rendering/Sprite.h"
 
 //Loads sprites and packs onto the least amount of textures possible
 //to avoid having to switch between textures during rendering

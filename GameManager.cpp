@@ -4,7 +4,6 @@
 #include <iostream>
 #include <GL/glfw.h>
 #include "GameManager.h"
-#include "PrintTransformSystem.h"
 
 using namespace std;
 
