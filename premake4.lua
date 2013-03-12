@@ -5,9 +5,6 @@ solution "2d-game-engine"
     kind "ConsoleApp"
     language "C++"
     files { "**.h", "**.cpp" }
-    files { "helper/rendering/**.h", "helper/rendering/**.cpp" }
-    files { "systems/**.h", "systems/**.cpp" }
-    files { "components/**.h", "components/**.cpp" }
     includedirs { "/" }
 
     configuration "windows"
