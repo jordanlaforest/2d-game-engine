@@ -37,6 +37,7 @@ class System
     string name; //Used when reporting information like time taken to update
 
   private:
+    System& operator=(const System&); //To stop VS from complaining
     GameManager& gm; //So it can get info on the entities
 };
 #endif

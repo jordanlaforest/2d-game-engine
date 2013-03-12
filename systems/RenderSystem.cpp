@@ -16,6 +16,7 @@ RenderSystem::RenderSystem(GameManager& gameManager,
   neededComponents.push_back(SPRITE);
 
   //Init
+  glewExperimental = GL_TRUE; //wtf is this? Well without it this program will crash hard in VS.
   if(!glfwInit()){
     cerr << "glfwInit() failed" << endl;
     exit(1);
@@ -24,7 +25,7 @@ RenderSystem::RenderSystem(GameManager& gameManager,
   glfwOpenWindowHint(GLFW_OPENGL_VERSION_MAJOR, 3);
   glfwOpenWindowHint(GLFW_OPENGL_VERSION_MINOR, 2);
   glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
-  if(!glfwOpenWindow(SCREEN_SIZE.x, SCREEN_SIZE.y,
+  if(!glfwOpenWindow(static_cast<int>(SCREEN_SIZE.x), static_cast<int>(SCREEN_SIZE.y),
                         8, 8, 8, 8, 0, 0, GLFW_WINDOW)){
     cerr << "glfwOpenWindow() failed. (Need OpenGL 3.2)" << endl;
     exit(1);
@@ -40,7 +41,7 @@ RenderSystem::RenderSystem(GameManager& gameManager,
 
   glfwSetWindowTitle(title.c_str());
 
-  glClearColor(0.3, 0.4, 0.8, 1.0);
+  glClearColor(0.3f, 0.4f, 0.8f, 1.0f);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
@@ -86,13 +87,13 @@ void RenderSystem::update()
     SpriteComponent* spriteComponent = static_cast<SpriteComponent*>(
                          getGameManager().getEntityComponent(e, SPRITE));
 
-    int x = transform->position.x;
-    int y = transform->position.y;
+    int x = static_cast<int>(transform->position.x);
+    int y = static_cast<int>(transform->position.y);
     int width, height;
     spriteComponent->sprite->getSize(width, height);
  
-    width  *= transform->scale.x;
-    height *= transform->scale.y;
+    width  = static_cast<int>(width * transform->scale.x);
+    height = static_cast<int>(height * transform->scale.y);
  
     if(x <= SCREEN_SIZE.x && y <= SCREEN_SIZE.y
        && x + width >= 0 && y + height >= 0){

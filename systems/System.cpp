@@ -6,17 +6,17 @@ System::System(GameManager& gameManager, string n)
              : name(n), gm(gameManager)
 { }
 
-void System::entityChanged(Entity* e, const list<Component*>& list)
+void System::entityChanged(Entity* e, const list<Component*>& cList)
 {
   cout << "Entity changed: " << e->name << endl;
   auto neededIt = neededComponents.begin();
   for(; neededIt != neededComponents.end(); neededIt++){
-    auto entityComponentsIt = list.begin();
-    for(; entityComponentsIt != list.end(); entityComponentsIt++){
+    auto entityComponentsIt = cList.begin();
+    for(; entityComponentsIt != cList.end(); entityComponentsIt++){
       if(*neededIt == (*entityComponentsIt)->getType())
         break; //Found this component
     }
-    if(entityComponentsIt == list.end())
+    if(entityComponentsIt == cList.end())
       break; //A neededComponent was not found, can stop searching now
     //else continue to next
   }
@@ -24,13 +24,13 @@ void System::entityChanged(Entity* e, const list<Component*>& list)
     cout << "Match to system: " << e->name << endl;
     if(entities.count(e) == 0){
       entities.insert(e);
-      entityAdded(e, list);
+      entityAdded(e, cList);
     }
   }else{
     cout << "Non-Match to system: " << e->name << endl;
     if(entities.count(e) == 1){
       entities.erase(e);
-      entityRemoved(e, list);
+      entityRemoved(e, cList);
     }
   }
 }

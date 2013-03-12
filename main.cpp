@@ -36,8 +36,8 @@ int main()
 
   for(int i =0; i < 10; i++){
     Entity& e = gm.createEntity("whatevs");
-    gm.addComponentToEntity(e, *(new TransformComponent((i * 100) % 800,
-                                                        (i * 100) % 600)));
+    gm.addComponentToEntity(e, *(new TransformComponent(static_cast<float>((i * 100) % 800),
+                                                        static_cast<float>((i * 100) % 600))));
     SpriteComponent* spr;
     if(i % 2 == 0)
       spr = new SpriteComponent(s2);

@@ -3,5 +3,16 @@
 *.d
 tags
 2d-game-engine
+2d-game-engine.exe
 2d-game-engine.make
 Makefile
+
+*.sln
+*.vcxproj*
+*.opensdf
+*.pdb
+*.sdf
+*.suo
+*.ipch
+obj/*
+*.ilk
