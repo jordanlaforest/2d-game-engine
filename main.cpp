@@ -22,35 +22,32 @@ int main()
   PrintTransformSystem pts(gm);
   //gm.addSystem(pts);
   gm.addSystem(rs);
-  TransformComponent tc(100, 100); //player
-  SpriteComponent    sc(s); //player
-  sc.tint.g = 0.0f;
-  TransformComponent tc3(500, 150);//test2
-  SpriteComponent    sc3(s);
   Entity& player = gm.createEntity("player");
-  Entity& test2 = gm.createEntity("test2");
-  gm.addComponentToEntity(player, tc);
-  gm.addComponentToEntity(player, sc);
-  gm.addComponentToEntity(test2, tc3);
-  gm.addComponentToEntity(test2, sc3);
+  TransformComponent* tc = gm.addComponentToEntity<TransformComponent>(player);
+  tc->position.x = 100;
+  tc->position.y = 100;
+  SpriteComponent* sc = gm.addComponentToEntity<SpriteComponent>(player);
+  sc->sprite = s;
 
-  for(int i =0; i < 10; i++){
+  Entity& test2 = gm.createEntity("test2");
+  //Might as well reuse these
+  tc = gm.addComponentToEntity<TransformComponent>(test2);
+  tc->position.x = 500;
+  tc->position.y = 150;
+  sc = gm.addComponentToEntity<SpriteComponent>(test2);
+  sc->sprite = s2;
+
+  for(int i =0; i < 1000; i++){
     Entity& e = gm.createEntity("whatevs");
-    gm.addComponentToEntity(e, *(new TransformComponent(static_cast<float>((i * 100) % 800),
-                                                        static_cast<float>((i * 100) % 600))));
-    SpriteComponent* spr;
+    TransformComponent* tComp = gm.addComponentToEntity<TransformComponent>(e);
+    tComp->position.x = (i * 100);// % 800;
+    tComp->position.y = (i * 100);// % 600;
+    SpriteComponent* spr = gm.addComponentToEntity<SpriteComponent>(e);
     if(i % 2 == 0)
-      spr = new SpriteComponent(s2);
+      spr->sprite = s2;
     else
-      spr = new SpriteComponent(s);
+      spr->sprite = s;
     spr->layer = i;
-    gm.addComponentToEntity(e, *spr);
   }
-  /*Component* c = gm.getEntityComponent(testEnt, TRANSFORM);
-  if(c != NULL)
-    cout << "Found. " << ((TransformComponent*)c)->position.x << endl;
-  //gm.removeComponentFromEntity(testEnt, tc2);
-  //gm.removeComponentFromEntity(testEnt, *c);
-  gm.removeComponentFromEntity(testEnt, TRANSFORM);*/
   gm.run();
 }

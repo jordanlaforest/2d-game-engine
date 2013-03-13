@@ -18,7 +18,9 @@ class GameManager
     //Creates an entity and adds it to the game
     //Should be upgraded to take components
     Entity& createEntity(const string& name="");
-    void addComponentToEntity(Entity&, Component&);
+	template<class Comp>
+	Comp* addComponentToEntity(Entity&);
+    //void addComponentToEntity(Entity&, Component&);
     void removeComponentFromEntity(Entity&, Component&);
     void removeComponentFromEntity(Entity&, ComponentType);
     void addSystem(System&);    //The order they are added is the order
@@ -43,4 +45,20 @@ class GameManager
     void entityChanged(Entity&) const;
 
 };
+
+template<class Comp>
+Comp* GameManager::addComponentToEntity(Entity& e)
+{
+  auto it = entities.find(&e);
+  if( it != entities.end()){
+    Comp* c = new Comp;
+    it->second.push_back(c);
+    entityChanged(e);
+	return c;
+  }else{
+    //Could not add component
+	return NULL;
+  }
+}
+
 #endif

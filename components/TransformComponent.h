@@ -3,12 +3,14 @@
 
 #include "Component.h"
 #include <glm/glm.hpp>
+class GameManager;
 
 class TransformComponent : public Component
 {
+  friend class GameManager;
+  private:
+    TransformComponent();
   public:
-    TransformComponent(float x=0, float y=0);
-    
     glm::vec2 position;
     glm::vec2 scale; 
     float rotation;

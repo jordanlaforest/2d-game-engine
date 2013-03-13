@@ -14,6 +14,11 @@ GameManager::~GameManager()
 {
   auto it = entities.begin();
   while(it != entities.end()){
+    auto compIt = it->second.begin();
+	  while(compIt != it->second.end()){
+      delete *compIt;
+      it->second.erase(compIt);
+    }
     delete it->first;
     it = entities.erase(it);
   }
@@ -30,17 +35,6 @@ Entity& GameManager::createEntity(const string& name)
   return *newEnt;
 }
 
-void GameManager::addComponentToEntity(Entity& e, Component& c)
-{
-  auto it = entities.find(&e);
-  if( it != entities.end()){
-    it->second.push_back(&c);
-    entityChanged(e);
-  }else{
-    //Could not add component
-  }
-}
-
 void GameManager::removeComponentFromEntity(Entity& e, Component& c)
 {
   auto it = entities.find(&e);
@@ -51,6 +45,7 @@ void GameManager::removeComponentFromEntity(Entity& e, Component& c)
         break;
     }
     if(listIt != it->second.end()){
+      delete *listIt;
       it->second.erase(listIt);
       entityChanged(e);
     }else{
@@ -71,6 +66,7 @@ void GameManager::removeComponentFromEntity(Entity& e, ComponentType t)
         break;
     }
     if(listIt != it->second.end()){
+      delete *listIt;
       it->second.erase(listIt);
       entityChanged(e);
     }else{
