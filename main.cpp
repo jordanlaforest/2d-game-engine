@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "GameManager.h"
+#include "helper/input/Input.h"
 #include "helper/rendering/SpriteManager.h"
 #include "Entity.h"
 #include "components/Component.h"
@@ -18,8 +19,7 @@ int main()
   SpriteManager sm;
   Sprite* s = sm.loadSprite("data/sprites/HorrifyingSmiley.png");
   Sprite* s2 = sm.loadSprite("data/sprites/Circle.png");
-  cout << "TextureId: " << s->getTextureId() << endl;
-  PrintTransformSystem pts(gm);
+  //PrintTransformSystem pts(gm);
   //gm.addSystem(pts);
   gm.addSystem(rs);
   Entity& player = gm.createEntity("player");
@@ -36,8 +36,13 @@ int main()
   tc->position.y = 150;
   sc = gm.addComponentToEntity<SpriteComponent>(test2);
   sc->sprite = s2;
-
-  for(int i =0; i < 1000; i++){
+  Input::initInput();
+  Input::addMapping("Up", 'W');
+  Input::addMapping("Down", 'S');
+  Input::addMapping("Exit", 'Q');
+  Input::addMapping("Exit", 'P');
+  
+  for(int i =0; i < 10; i++){
     Entity& e = gm.createEntity("whatevs");
     TransformComponent* tComp = gm.addComponentToEntity<TransformComponent>(e);
     tComp->position.x = (i * 100);// % 800;

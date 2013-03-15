@@ -56,10 +56,10 @@ Sprite* SpriteManager::loadSprite(std::string filename)
   glBindTexture(GL_TEXTURE_2D, 0);
 
   ilDeleteImages(1, &texId);
-
+  
   GLuint err = glGetError();
 	if (err != GL_NO_ERROR)
-		std::cerr << "OpenGL Error: " << std::hex << err << std::endl; 
+		std::cerr << "SpriteManager, OpenGL Error: " << std::hex << err << std::endl; 
 
   return s; 
 }

@@ -10,5 +10,6 @@ class Component
     ComponentType type;
   public:
     ComponentType getType();
+    virtual ~Component();
 };
 #endif

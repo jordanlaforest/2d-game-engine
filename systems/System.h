@@ -12,6 +12,7 @@ class System
 {
   public:
     System(GameManager&, string n);
+    virtual ~System();
     //This is where the system does it's work on each entity
     virtual void update();
     //When an entity gains/loses a compononent this will update the list

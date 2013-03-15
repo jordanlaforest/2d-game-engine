@@ -3,6 +3,9 @@
 Component::Component()
 {}
 
+Component::~Component()
+{}
+
 ComponentType Component::getType()
 {
   return type;

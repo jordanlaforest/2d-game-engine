@@ -6,6 +6,9 @@ System::System(GameManager& gameManager, string n)
              : name(n), gm(gameManager)
 { }
 
+System::~System()
+{ }
+
 void System::entityChanged(Entity* e, const list<Component*>& cList)
 {
   cout << "Entity changed: " << e->name << endl;

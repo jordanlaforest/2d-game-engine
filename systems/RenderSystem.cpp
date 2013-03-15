@@ -35,6 +35,13 @@ RenderSystem::RenderSystem(GameManager& gameManager,
     cerr << "glewInit() failed" << endl;
     exit(1);
   }
+  //Ignore OpenGL error caused by GLEW (fuck you GLEW)
+  //More info http://www.opengl.org/wiki/OpenGL_Loading_Library#GLEW
+  //I believe this issue is related to glewExperimental and so this issue won't appear on Linux
+  GLuint err = glGetError();
+	if (err != GL_NO_ERROR)
+		std::cerr << "GLEW error (safe to ignore): " << std::hex << err << std::endl; 
+
   if(!GLEW_VERSION_3_2){
     cerr << "OpenGL 3.2 API is not available" << endl;
   }
@@ -70,7 +77,6 @@ RenderSystem::~RenderSystem()
 {
   delete[] drawLayers;
   delete spriteBatch;
-  glfwTerminate();
 }
 
 void RenderSystem::update()
@@ -132,12 +138,12 @@ void RenderSystem::update()
     drawLayers[i].clear();
   }
   postUpdate();
-
   GLuint err = glGetError();
   if (err != GL_NO_ERROR){
-    std::cerr << "OpenGL Error: " << std::hex << err << std::endl;
+    std::cerr << "Exited on OpenGL Error: " << std::hex << err << std::endl;
     exit(1);
   }
+  
 }
 
 void RenderSystem::preUpdate()

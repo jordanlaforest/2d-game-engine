@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <GL/glfw.h>
+#include "helper/input/Input.h"
 #include "GameManager.h"
 
 using namespace std;
@@ -17,11 +18,12 @@ GameManager::~GameManager()
     auto compIt = it->second.begin();
 	  while(compIt != it->second.end()){
       delete *compIt;
-      it->second.erase(compIt);
+      compIt = it->second.erase(compIt);
     }
     delete it->first;
     it = entities.erase(it);
   }
+  glfwTerminate(); //We're handling this here so that the ShaderProgram objects are destroyed before it's called (it was in RenderSystem destructor before)
 }
 
 Entity& GameManager::createEntity(const string& name)
@@ -130,11 +132,17 @@ void GameManager::run()
 
   isRunning = true;
   while(isRunning){
+    if(Input::getKeyState("Exit"))
+      stopGame();
+    if(Input::getKeyState("Up"))
+      cout << "Up" << endl;
+    if(Input::getKeyState("Down"))
+      cout << "Down" << endl;
     double beforeTime = glfwGetTime();
     update();
     double timeTaken = glfwGetTime() - beforeTime;
-    cout << "Frame took " << timeTaken * 1000 << " ms which is "
-         << 1 / timeTaken << " fps" << endl;
+    //cout << "Frame took " << timeTaken * 1000 << " ms which is "
+    //     << 1 / timeTaken << " fps" << endl;
   }
 }
 
@@ -150,7 +158,7 @@ void GameManager::update()
     double beforeTime = glfwGetTime(); //Requires having called glfwInit
     (*it)->update();
     double timeTaken = glfwGetTime() - beforeTime;
-    cout << (*it)->getName() << " took " << timeTaken * 1000 << " ms" << endl;
+    //cout << (*it)->getName() << " took " << timeTaken * 1000 << " ms" << endl;
     it++;
   }
 }

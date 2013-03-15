@@ -64,6 +64,11 @@ void SpriteBatch::begin(GLuint program)
 void SpriteBatch::draw(Sprite* s, glm::vec2 pos,
                   glm::vec2 scale, glm::vec4 tint, float rotation)
 {
+  GLuint err = glGetError();
+  if (err != GL_NO_ERROR){
+    std::cerr << "Begin draw, OpenGL Error: " << std::hex << err << std::endl;
+    exit(1);
+  }
 
   checkFlush(s->getTexture());
 
@@ -105,7 +110,6 @@ void SpriteBatch::draw(Sprite* s, glm::vec2 pos,
   addVertexData(vertexBR, tint, texBR);
   addVertexData(vertexBL, tint, texBL);
   addQuadIndices();
-  
 }
 
 void SpriteBatch::end()
