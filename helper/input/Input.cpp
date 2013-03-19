@@ -1,7 +1,6 @@
 #include <vector>
 #include <unordered_map>
 #include <iostream>
-#include <glfw.h>
 #include "Input.h"
 
 namespace Input
@@ -13,7 +12,7 @@ namespace Input
     std::unordered_map<std::string, std::vector<int> > keyMap;
     void GLFWCALL setKey(int key, int action)
     {
-      std::cout << "Key " << (action ? "Pressed" : "Released") << ": " << key << "(" << static_cast<char>(key & 0xFF) << ")" << std::endl;
+      //std::cout << "Key " << (action ? "Pressed" : "Released") << ": " << key << "(" << static_cast<char>(key & 0xFF) << ")" << std::endl;
       keys[key] = static_cast<bool>(action);
     }
   }

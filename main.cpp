@@ -38,9 +38,12 @@ int main()
   sc->sprite = s2;
   Input::initInput();
   Input::addMapping("Up", 'W');
+  Input::addMapping("Up", Input::Keys::UP);
   Input::addMapping("Down", 'S');
+  Input::addMapping("Down", Input::Keys::DOWN);
   Input::addMapping("Exit", 'Q');
   Input::addMapping("Exit", 'P');
+  Input::addMapping("Exit", Input::Keys::ESC);
   
   for(int i =0; i < 10; i++){
     Entity& e = gm.createEntity("whatevs");

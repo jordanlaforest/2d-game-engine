@@ -2,8 +2,8 @@
 #include <map>
 #include <string>
 #include <iostream>
-#include <GL/glfw.h>
 #include "helper/input/Input.h"
+#include <GL/glfw.h>
 #include "GameManager.h"
 
 using namespace std;
@@ -141,8 +141,8 @@ void GameManager::run()
     double beforeTime = glfwGetTime();
     update();
     double timeTaken = glfwGetTime() - beforeTime;
-    //cout << "Frame took " << timeTaken * 1000 << " ms which is "
-    //     << 1 / timeTaken << " fps" << endl;
+    cout << "Frame took " << timeTaken * 1000 << " ms which is "
+         << 1 / timeTaken << " fps" << endl;
   }
 }
 
@@ -158,7 +158,7 @@ void GameManager::update()
     double beforeTime = glfwGetTime(); //Requires having called glfwInit
     (*it)->update();
     double timeTaken = glfwGetTime() - beforeTime;
-    //cout << (*it)->getName() << " took " << timeTaken * 1000 << " ms" << endl;
+    cout << (*it)->getName() << " took " << timeTaken * 1000 << " ms" << endl;
     it++;
   }
 }
