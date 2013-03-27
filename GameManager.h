@@ -9,6 +9,10 @@
 
 using namespace std;
 
+/* The actual engine. It manages the systems, entities, and components.
+ * entities and components are allocated de-allocated by this class
+ * maybe systems should be as well?
+ */
 class GameManager
 {
   public:
@@ -18,16 +22,25 @@ class GameManager
     //Creates an entity and adds it to the game
     //Should be upgraded to take components
     Entity& createEntity(const string& name="");
-	template<class Comp>
-	Comp* addComponentToEntity(Entity&);
-    //void addComponentToEntity(Entity&, Component&);
+    /* Adds a component to an entity like so
+     * gameManager.addComponentToEntity<Component>(entity); where Component is any subclass of Component
+     * The components memory will be managed by this class
+     */
+    template<class Comp>
+    Comp* addComponentToEntity(Entity&);
+    // Remove a component from an entity with either a reference or type
     void removeComponentFromEntity(Entity&, Component&);
     void removeComponentFromEntity(Entity&, ComponentType);
-    void addSystem(System&);    //The order they are added is the order
-    void removeSystem(System&); //they will run in
+
+    /* Adds a system to be run by the engine
+     * systems are run in the order they are added
+     */
+    void addSystem(System&);
+    void removeSystem(System&);
     //Gets the (first) component of the specified type from the entity
     Component* getEntityComponent(Entity&, ComponentType) const;
 
+    //Exit the game loop and return from run()
     void stopGame();
 
     //start the game, doesn't return until game is finished executing
@@ -54,7 +67,7 @@ Comp* GameManager::addComponentToEntity(Entity& e)
     Comp* c = new Comp;
     it->second.push_back(c);
     entityChanged(e);
-	return c;
+    return c;
   }else{
     //Could not add component
 	return NULL;

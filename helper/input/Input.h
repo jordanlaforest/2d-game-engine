@@ -40,7 +40,7 @@ namespace Input
     unsigned int const F23         = GLFW_KEY_F23;
     unsigned int const F24         = GLFW_KEY_F24;
     unsigned int const F25         = GLFW_KEY_F25;
-    unsigned int const UP          = GLFW_KEY_UP         ;
+    unsigned int const UP          = GLFW_KEY_UP;
     unsigned int const DOWN        = GLFW_KEY_DOWN;
     unsigned int const LEFT        = GLFW_KEY_LEFT;
     unsigned int const RIGHT       = GLFW_KEY_RIGHT;
@@ -84,8 +84,11 @@ namespace Input
     unsigned int const MENU        = GLFW_KEY_MENU;
   }
 
+  //Required to get any input
   void initInput();
+  //Gets the state of a key (key being a string representing a list of keys)
   bool getKeyState(std::string key);
+  //Creates a mapping of a key to a string to be used in getKeyState
   void addMapping(std::string name, int key);
 }
 
